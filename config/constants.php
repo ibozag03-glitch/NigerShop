@@ -35,11 +35,13 @@ define('PERMISSION_ADMIN',1);
 
 // Valeur de validation
 define('MIN_PWD_LEN', 8);
-define('MAX_PWD_LEN',255);
-define('MIN_USERNAME_LEN',3);
-define('MAX_USERNAME_LEN',50);
-define('MIN_ANNONCE_TITRE_LEN',5);
-define('MAX_ANNONCE_TITRE_LEN',200);
+define('MAX_PWD_LEN', 255);
+define('MIN_USERNAME_LEN', 3);
+define('MAX_USERNAME_LEN', 50);
+define('MIN_ANNONCE_TITRE_LEN', 5);
+define('MAX_ANNONCE_TITRE_LEN', 200);
+define('MIN_ANNONCE_DESC_LEN', 20);
+define('MAX_ANNONCE_DESC_LEN', 5000);
 
 // Messages de validation
 define('MSG_REGISTER_SUCCESS','Votre compte à été créé avec succès !');

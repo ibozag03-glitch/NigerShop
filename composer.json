@@ -1,0 +1,22 @@
+{
+    "name": "leamsi/niger-shop",
+    "description": "NigerShop est une plateforme web de commerce électronique destinée aux petits et grands commerçants du Niger. Elle permet aux vendeurs de publier et gérer des annonces de produits (vêtements, nourriture, chaussures, électronique, etc.) et aux acheteurs de parcourir, rechercher, et communiquer avec les vendeurs.",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "ibozag",
+            "email": "gazobi.d.ismael@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require": {
+        "altorouter/altorouter": "^2.0",
+        "symfony/var-dumper": "^8.1",
+        "filp/whoops": "^2.18",
+        "fakerphp/faker": "^1.24"
+    }
+}

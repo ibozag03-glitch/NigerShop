@@ -1,24 +1,24 @@
 <?php
 /**
- * Ce fichier permet de valider les différent type de connexions 
+ * Ce fichier permet de valider les différents type de connexions 
 */
 namespace App\Core;
-use PDOException;
-require_once __DIR__.'/../../config/config.php';
+// use PDOException;
+require_once __DIR__ . '/../../config/config.php';
 
 class Validator {
     
     private array $errors = [];
     private Database $dataBase;
 
-    public function __construct(Database $dataBase)
-    {
-        try{
-            $this->dataBase = $dataBase;
-        }catch(PDOException $e){
-            $this->errors["Erreur"] = "Erreur de connexion: ".$e->getMessage();
-        }
-    }
+    // public function __construct(Database $dataBase)
+    // {
+    //     try{
+    //         $this->dataBase = $dataBase;
+    //     }catch(PDOException $e){
+    //         $this->errors["Erreur"] = "Erreur de connexion: ".$e->getMessage();
+    //     }
+    // }
 
     public function required(string $field, mixed $value): self
     {
@@ -153,7 +153,8 @@ class Validator {
 
     public function validEmail(string $field, mixed $value): self
     {
-        if(!filter_var($value, FILTER_VALIDATE_EMAIL)){
+        $emailFormat = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/i';
+        if(!preg_match($emailFormat, $value)){
             $this->errors[$field] = MSG_INVALID_EMAIL;
         }
         return $this;

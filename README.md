@@ -16,9 +16,7 @@
 
 ## Description du Projet
 
-NigerShop est une plateforme web de commerce électronique destinée aux petits et grands commerçants du Niger. 
-Elle permet aux vendeurs de publier et gérer des annonces de produits (vêtements, nourriture, chaussures, électronique, etc.) 
-et aux acheteurs de parcourir, rechercher, et communiquer avec les vendeurs.
+NigerShop est une plateforme web de commerce électronique destinée aux petits et grands commerçants du Niger. Elle permet aux vendeurs de publier et gérer des annonces de produits (vêtements, nourriture, chaussures, électronique, etc.) et aux acheteurs de parcourir, rechercher, et communiquer avec les vendeurs.
 
 Le projet est conçu comme une solution alternative à LeBonCoin, adaptée au marché nigérien.
 
@@ -117,7 +115,7 @@ config/            Configuration et constantes globales
 src/               Toute la logique d'éxécution et de fonctionnement
 assets/            CSS, JavaScript, images et fichiers uploadés
 includes/          Composants réutilisables
-pages/             Pages accessibles par utilisateurs
+public/            Pages accessibles par utilisateurs
 ```
 
 ### Détail des Dossiers
@@ -126,7 +124,7 @@ pages/             Pages accessibles par utilisateurs
 NigerShop/
 │
 ├── database/                      
-│   ├── nigershop.sql               Schéma complet de la base de donnée
+│   ├── nigershop.sql              Schéma complet de la base de donnée
 │   └── README.md                  Instructions de création de la BD
 │
 ├── config/
@@ -136,49 +134,57 @@ NigerShop/
 ├── src/                           Toute la logique d'exécution et de fonctionnement du projet
 │   │
 │   ├── Core/                      Infrastructure de conception
+|   |   |
 │   │   ├── Database.php           Classe de connexion PDO (requêtes sécurisées)
 │   │   ├── Router.php             Routeur URLs (pour futures APIs)
 │   │   ├── Logger.php             Gestion des logs et débogage
 │   │   └── Validator.php          Validation centralisée (emails, mots de passe)
 │   │
 │   ├── Models/                    Requêtes et opérations sur la base de données
+|   |   |
 │   │   ├── User.php               Gestion utilisateurs (CRUD Utilisateur)
 │   │   ├── Annonce.php            Gestion annonces (CRUD Annonces)
 │   │   ├── Message.php            Gestion messages privés (CRUD Messages)
 │   │   ├── Category.php           Gestion catégories d'annonces (CRUD Catégorie)
-│   │   └── Favorite.php           Gestion annonces favorites (CRUD Favoris)
+│   │   └── Favorites.php           Gestion annonces favorites (CRUD Favoris)
 │   │
 │   ├── Controllers/               Logiques de vérification et de traitement des données
+|   |   |
 │   │   ├── AuthController.php     Logique authentification (login, register)
 │   │   ├── AnnonceController.php  Logique annonces (création, modification)
 │   │   ├── UserController.php     Logique profil utilisateur
 │   │   ├── MessageController.php  Logique messagerie
-│   │   ├── FavoriteController.php Logique favoris
+│   │   ├── FavoritesController.php Logique favoris
 │   │   └── AdminController.php    Logique tableau de bord admin
 │   │
 │   ├── Helpers/                   Fonctions utilitaires réutilisables
+|   |   |
 │   │   ├── FileUpload.php         Gestion uploads fichiers et images
 │   │   ├── Session.php            Gestion sécurisée des sessions
 │   │   └── Security.php           Protection CSRF et sécurité
 │   │
-│   └── Middleware/                Filtres de sécurité et contrôle d'accès
-│       ├── AuthMiddleware.php     Vérifier que l'utilisateur est connecté
-│       └── AdminMiddleware.php    Vérifier que l'utilisateur est administrateur
+│   ├── Middleware/                Filtres de sécurité et contrôle d'accès
+|   |   |
+│   |   ├── AuthMiddleware.php     Vérifier que l'utilisateur est connecté
+│   |   └── AdminMiddleware.php    Vérifier que l'utilisateur est administrateur
+|   │
+|   └── Test/                      Dossier pour les tests unitaires
+|       
 │
 ├── assets/                        Ressources de la plateforme (CSS, JavaScript, images, uploads)
 │   │
 │   ├── css/
-│   │   ├── style.css              Styles CSS globaux du site
-│   │   ├── responsive.css         Gestion du responsive du site (mobile, tablette, desktop)
-│   │   └── variables.css          Variables CSS du site (couleurs, espacements)
+│   │   ├── style.css              Styles CSS globale de la plateforme
+│   │   ├── responsive.css         Gestion du responsive de la plateforme (mobile, tablette, desktop)
+│   │   └── variables.css          Variables CSS de la plateforme (couleurs, espacements)
 │   │
 │   ├── js/
-│   │   ├── app.js                 JavaScript principal du site
+│   │   ├── app.js                 JavaScript principal de la plateforme
 │   │   ├── validation.js          Validation des formulaires côté client
 │   │   └── helpers.js             Fonctions réutilisables JavaScript
 │   │
 │   ├── images/                    Logos, icônes et images
-│   ├── videos/                    Vidéos publicitaires
+│   ├── videos/                    Vidéos publicitaires (si présente)
 │   │
 │   └── uploads/                   Fichiers uploadés par les utilisateurs
 │       ├── avatars/               Photos de profil
@@ -191,12 +197,15 @@ NigerShop/
 │   ├── footer.php                 Pied de page commun
 │   └── messages.php               Affichage messages d'erreur et succès
 │
-├── pages/                         Pages visibles par tous sur la plateforme
+├── public/                        Pages visibles et accessibles par tous sur la plateforme
+|   |
+|   ├── index.php                  Ficher de routage du site permettant de joindres les autres pages de la plateforme via url
 │   │
 │   ├── auth/
 │   │   ├── changeInfo.php         Formulaire pour gérer l'oubli des infos de compte par l'utilisateur
+|   |   ├── register.php           Formulaire d'inscription
 │   │   ├── login.php              Formulaire de connexion
-│   │   └── register.php           Formulaire d'inscription
+│   │   └── logout.php             Déconnexion du site
 │   │
 │   ├── annonces/
 │   │   ├── index.php              Liste de toutes les annonces
@@ -214,12 +223,12 @@ NigerShop/
 │   │
 │   ├── user/
 │   │   ├── profil.php             Infos personnel de l'utilisateur
-│   │   ├── mes-annonces.php       Annonces propre à l'utilisateur
+│   │   ├── mes-annonces.php       Annonces éffectué par l'utilisateur
 │   │   └── mes-favoris.php        Annonces favorites de l'utilisateur
 │   │
 │   ├── admin/
-│   │   ├── dashboard.php          Statistiques et vue d'ensemble du site
-│   │   └── user.php               Gestion des utilisateurs inscrit et présent sur le site
+│   │   ├── dashboard.php          Statistiques et vue d'ensemble de la plateforme
+│   │   └── user.php               Gestion des utilisateurs inscrit et présent sur la plateforme
 │   │
 │   └── static/
 │       ├── apropos.php            À propos de NigerShop
@@ -227,8 +236,6 @@ NigerShop/
 │       ├── confidentialite.php    Politique de confidentialité (RGPD)
 │       └── faq.php                Questions fréquemment posées
 │
-├── index.php                      Page d'accueil du site
-├── logout.php                     Déconnexion du site
 ├── .env                           Configuration locale
 ├── .env.example                   Template de configuration
 ├── .gitignore                     

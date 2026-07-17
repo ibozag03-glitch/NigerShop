@@ -1,6 +1,9 @@
-# Environnement
+# Environnement, dependence, test
 
 .env
+.json
+.lock
+Test/*
 
 # Fichiers utilisateurs
 

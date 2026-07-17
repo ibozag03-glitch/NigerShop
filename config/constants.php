@@ -18,11 +18,11 @@ define('SITE_NAME','NigerShop');
 define('SITE_DESCRIPTION','plateforme web de commerce électronique destinée aux commerçants du Niger.');
 
 // Chemins vers les repertoires
-define('NS_REP', __DIR__ . '/../');
-define('SRC_REP', NS_REP . 'src/');
-define('ASSETS_REP', NS_REP . 'assets/');
-define('INCLUDES_REP', NS_REP . 'includes/');
-define('PAGES_REP', NS_REP. 'pages/');
+define('NS_REP', __DIR__ . DIRECTORY_SEPARATOR .'..' . DIRECTORY_SEPARATOR);
+define('SRC_REP', NS_REP . 'src' . DIRECTORY_SEPARATOR);
+define('ASSETS_REP', NS_REP . 'assets' . DIRECTORY_SEPARATOR);
+define('INCLUDES_REP', NS_REP . 'includes' . DIRECTORY_SEPARATOR);
+define('PUBLIC_REP', NS_REP. 'public' . DIRECTORY_SEPARATOR);
 
 // Chemin pour les uploads
 define('UPLOAD_REP', ASSETS_REP . 'uploads/');

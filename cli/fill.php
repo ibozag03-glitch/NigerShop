@@ -15,7 +15,7 @@ $DB_NAME = $_ENV["DB_NAME"];
 $DB_USER = $_ENV["DB_USER"];
 $DB_PWD = '';//$_ENV["DB_PWD"];
 
-$pdo = Database::getPDO($DB_HOST, $DB_NAME, $DB_USER, $DB_PWD);
+$pdo = new Database($DB_HOST, $DB_NAME, $DB_USER, $DB_PWD);
 
 $sqlDB = 
     "DROP DATABASE IF EXISTS NS_dev_db;
@@ -65,5 +65,5 @@ $params = [
     "birth_date" => "07/02/2007",
 ];
 
-$query = $pdo->prepare($sqlInsertion);
-$query->execute($params);
+// $query = $pdo->prepare($sqlInsertion);
+// $query->execute($params);

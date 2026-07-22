@@ -17,7 +17,6 @@ class Router {
     {
         $this->basePath = $basePath;
         $this->router = new AltoRouter();
-        // dump($this);
     }
 
     public function url(string $routeName, array $params = []): string
@@ -28,20 +27,14 @@ class Router {
     public function getRoute(string $url, string $path, ?string $name = null)
     {
         $this->router->map('GET', $url, $path, $name);
-        // dump($this);
         return $this;
     }
 
     public function run()
     {
         $match = $this->router->match();
-        dump($match);
         $path = $match['target'] ?? null;
         $params = $match['params'] ?? [];
-        dump($this);
-
-        // $router = $this;
-        // dump($router);
 
         ob_start();
         require $this->basePath . DIRECTORY_SEPARATOR . $path . '.php';

@@ -3,22 +3,18 @@
  * Ce fichier permet de valider les différents type de connexions 
 */
 namespace App\Core;
-// use PDOException;
+
 require_once __DIR__ . '/../../config/config.php';
 
 class Validator {
     
     private array $errors = [];
-    private Database $dataBase;
+    private Database $database;
 
-    // public function __construct(Database $dataBase)
-    // {
-    //     try{
-    //         $this->dataBase = $dataBase;
-    //     }catch(PDOException $e){
-    //         $this->errors["Erreur"] = "Erreur de connexion: ".$e->getMessage();
-    //     }
-    // }
+    public function setDatabase(Database $database)
+    { 
+        $this->database = $database;   
+    }
 
     public function required(string $field, mixed $value): self
     {
@@ -44,15 +40,6 @@ class Validator {
         return $this;
     }
 
-    public function lengthBetween(string $field, mixed $value, int $minlength, int $maxlength): self
-    {
-        $length = strlen((string)$value);
-        if($length < $minlength || $length > $maxlength){
-            $this->errors[$field] = "$field n'a pas la bonne longueur.";
-        }
-        return $this;
-    }
-
     public function isNumber(string $field, mixed $value): self
     {
         if(!is_numeric($value)){
@@ -61,7 +48,7 @@ class Validator {
         return $this;
     }
 
-    public function isEntier(string $field, mixed $value): self
+    public function isInteger(string $field, mixed $value): self
     {
         if(!filter_var($value, FILTER_VALIDATE_INT)){
             $this->errors[$field] = "$field n'est pas une valeur entière.";    
@@ -96,25 +83,9 @@ class Validator {
         return $this;
     }
 
-    public function greaterThan(string $field, int|float $value, int|float $lessValue): self
+    public function match(string $field, mixed $value, mixed $match): self
     {
-        if($value < $lessValue){
-            $this->errors[$field] = "$field ne peux pas être inférieux à $lessValue.";
-        }
-        return $this;
-    }
-    
-    public function lessThan(string $field, int|float $value, int|float $greatValue): self
-    {
-        if($value > $greatValue){
-            $this->errors[$field] = "$field ne peux pas être inférieur à $greatValue.";
-        }
-        return $this;
-    }
-
-    public function compare(string $field, mixed $value, mixed $compare): self
-    {
-        if($value !== $compare){
+        if($value !== $match){
             $this->errors[$field] = "$field ne correspond pas.";
         }
         return $this;
@@ -139,18 +110,6 @@ class Validator {
         return $this;
     }
 
-    public function uniqueUsername(string $field, mixed $value): self
-    {
-        $verifSQL = "SELECT COUNT(*) as count FROM users WHERE nom = :nom";
-        $result = $this->dataBase->fetch($verifSQL, ["nom" => $value]);
-
-        if ($result['count'] > 0){
-            $this->errors[$field] = "Ce $field est déjà utilisé.";
-        }
-
-        return $this;
-    }
-
     public function validEmail(string $field, mixed $value): self
     {
         $emailFormat = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/i';
@@ -159,19 +118,7 @@ class Validator {
         }
         return $this;
     }
-
-    public function emailExist(string $field, mixed $value): self
-    {
-        $searchSQL = "SELECT COUNT(*) as count FROM users WHERE email = :email";
-        $result = $this->dataBase->fetch($searchSQL,["email" => $value]);
-
-        if ($result['count'] > 0){
-            $this->errors[$field] = MSG_ERREUR_EMAIL_EXISTS;
-        }
-
-        return $this;
-    }
-
+    
     public function validPassword(string $field, mixed $value): self
     {
         $validPWD = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/i";
@@ -186,6 +133,17 @@ class Validator {
         return $this;
     }
 
+    public function unique(string $table, string $column, mixed $value): self
+    {
+        $verifSQL = "SELECT COUNT(*) as count FROM $table WHERE $column = :value";
+        $result = $this->database->fetch($verifSQL, ["value" => $value]);
+
+        if ($result['count'] > 0){
+            $this->errors[$column] = "Ce $column existe déjà.";
+        }
+        return $this;
+    }
+
     public function validCategory(string $field, mixed $value): self
     {
         if(filter_var($value, FILTER_VALIDATE_INT) === false){
@@ -194,7 +152,7 @@ class Validator {
         }
 
         $searchSQL = "SELECT COUNT(*) as count FROM categories WHERE id_categorie = :id";
-        $result = $this->dataBase->fetchColumn($searchSQL,["id" => $value]);
+        $result = $this->database->fetchColumn($searchSQL,["id" => $value]);
 
         if($result['count'] === 0){
             $this->errors[$field] = "cette $field n'existe pas.";
@@ -215,7 +173,6 @@ class Validator {
 
         $this->required($prix, $data[$prix] ?? '');
         $this->isNumber($prix, $data[$prix] ?? '');
-        $this->greaterThan($prix, $data[$prix] ?? 0, 0);
 
         return $this;
     }
@@ -224,11 +181,11 @@ class Validator {
     {
         $this->required($usernameField, $data[$usernameField] ?? '');
         $this->validName($usernameField, $data[$usernameField] ?? '');
-        $this->uniqueUsername($usernameField, $data[$usernameField] ?? '');
+        $this->unique("users", $usernameField, $data[$usernameField] ?? '');
         
         $this->required($emailField, $data[$emailField] ?? '');
         $this->validEmail($emailField, $data[$emailField] ?? '');
-        $this->emailExist($emailField, $data[$emailField] ?? '');
+        $this->unique("users", $emailField, $data[$emailField] ?? '');
         
         if ($createUser) {
             $this->required($passwordField, $data[$passwordField] ?? '');
@@ -246,16 +203,6 @@ class Validator {
     public function getErrors(): array
     {
         return $this->errors;
-    }
-
-    public function getError(string $field): ?string
-    {
-        return $this->errors[$field] ?? null;
-    }
-
-    public function hasError(string $field): bool
-    {
-        return isset($this->errors[$field]);
     }
 
     public function clearErrors(): self

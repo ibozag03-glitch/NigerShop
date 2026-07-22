@@ -50,6 +50,7 @@ CREATE TABLE annonces (
     descriptions TEXT NOT NULL,
     price DECIMAL(10,2) UNSIGNED NOT NULL CHECK(price > 0),
     state ENUM('neuf','bon Etat','correct','occasion') NOT NULL,
+    state ENUM('active','sold','expired') NOT NULL,
     product_image VARCHAR(255) NOT NULL,
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modification_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

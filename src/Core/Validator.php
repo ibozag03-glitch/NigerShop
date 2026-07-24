@@ -13,80 +13,14 @@ class Validator {
 
     public function setDatabase(Database $database)
     { 
-        $this->database = $database;   
+        $this->database = $database;
+        return $this;
     }
 
     public function required(string $field, mixed $value): self
     {
         if(empty(trim((string)$value))){
             $this->errors[$field]  = "$field est vide. Veuillez le remplir.";
-        }
-        return $this;
-    }
-    
-    public function minLength(string $field, mixed $value, int $length): self
-    {
-        if(strlen((string)$value) < $length){
-            $this->errors[$field] = "$field est trop court. Il doit avoir au moins $length caractères.";    
-        }
-        return $this;
-    }
-
-    public function maxLength(string $field, mixed $value, int $length): self
-    {
-        if(strlen((string)$value) > $length){
-            $this->errors[$field] = "$field est trop long. Il doit avoir au plus $length caractères.";
-        }
-        return $this;
-    }
-
-    public function isNumber(string $field, mixed $value): self
-    {
-        if(!is_numeric($value)){
-            $this->errors[$field] = "$field n'est pas une valeur numerique.";   
-        }
-        return $this;
-    }
-
-    public function isInteger(string $field, mixed $value): self
-    {
-        if(!filter_var($value, FILTER_VALIDATE_INT)){
-            $this->errors[$field] = "$field n'est pas une valeur entière.";    
-        }
-        return $this;
-    }
-
-    public function isBoolean(string $field, mixed $value): self
-    {
-        if(!filter_var($value, FILTER_VALIDATE_BOOLEAN)){
-            $this->errors[$field] = "$field n'est pas une valeur booléen.";
-        }
-        return $this;
-    }
-    
-    public function validUrl(string $field, mixed $value): self
-    {
-        if(!filter_var($value, FILTER_VALIDATE_URL)){
-            $this->errors[$field] = "$field n'est pas une URL valide."; 
-        }
-        return $this;
-    }
-    
-    public function validPhone(string $field, mixed $value): self
-    {
-        $formatNe = "/^(\+227)[\s.-]?(\d{8}|\d{2}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?)$/";
-        $formatFr = "/^(\+33|0)[1-9](\d{8}|\d{2}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?)$/";
-        
-        if(!(preg_match($formatNe, $value) || preg_match($formatFr, $value))){
-            $this->errors[$field] = "$field n'est pas un numéro valide.";
-        }
-        return $this;
-    }
-
-    public function match(string $field, mixed $value, mixed $match): self
-    {
-        if($value !== $match){
-            $this->errors[$field] = "$field ne correspond pas.";
         }
         return $this;
     }
@@ -133,6 +67,17 @@ class Validator {
         return $this;
     }
 
+    public function validPhone(string $field, mixed $value): self
+    {
+        $formatNe = "/^(\+227)[\s.-]?(\d{8}|\d{2}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?)$/";
+        $formatFr = "/^(\+33|0)[1-9](\d{8}|\d{2}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?)$/";
+        
+        if(!(preg_match($formatNe, $value) || preg_match($formatFr, $value))){
+            $this->errors[$field] = "$field n'est pas un numéro valide.";
+        }
+        return $this;
+    }
+
     public function unique(string $table, string $column, mixed $value): self
     {
         $verifSQL = "SELECT COUNT(*) as count FROM $table WHERE $column = :value";
@@ -140,6 +85,62 @@ class Validator {
 
         if ($result['count'] > 0){
             $this->errors[$column] = "Ce $column existe déjà.";
+        }
+        return $this;
+    }
+    
+    public function validUrl(string $field, mixed $value): self
+    {
+        if(!filter_var($value, FILTER_VALIDATE_URL)){
+            $this->errors[$field] = "$field n'est pas valide."; 
+        }
+        return $this;
+    }
+
+    public function match(string $field, mixed $value, mixed $match): self
+    {
+        if($value !== $match){
+            $this->errors[$field] = "$field ne correspond pas.";
+        }
+        return $this;
+    }
+    
+    public function minLength(string $field, mixed $value, int $length): self
+    {
+        if(strlen((string)$value) < $length){
+            $this->errors[$field] = "$field est trop court. Il doit avoir au moins $length caractères.";    
+        }
+        return $this;
+    }
+
+    public function maxLength(string $field, mixed $value, int $length): self
+    {
+        if(strlen((string)$value) > $length){
+            $this->errors[$field] = "$field est trop long. Il doit avoir au plus $length caractères.";
+        }
+        return $this;
+    }
+
+    public function isNumber(string $field, mixed $value): self
+    {
+        if(!is_numeric($value)){
+            $this->errors[$field] = "$field n'est pas une valeur numerique.";   
+        }
+        return $this;
+    }
+
+    public function isInteger(string $field, mixed $value): self
+    {
+        if(!filter_var($value, FILTER_VALIDATE_INT)){
+            $this->errors[$field] = "$field n'est pas une valeur entière.";    
+        }
+        return $this;
+    }
+
+    public function isBoolean(string $field, mixed $value): self
+    {
+        if(!filter_var($value, FILTER_VALIDATE_BOOLEAN)){
+            $this->errors[$field] = "$field n'est pas une valeur booléen.";
         }
         return $this;
     }

@@ -23,6 +23,8 @@
 - Light MVC structure put in place with `src/Controllers`, `src/Models`, `src/Core`
 - Authentication built with pages in `public/auth/*.php`
 - A first base of unit tests present in `tests/`
+- Database class refined with static init(), isConnected(), and comprehensive PHPDoc
+- Comprehensive unit tests for Database class methods with fixtures in setUp()
 
 ### Notable refactors
 - Consolidated DB access with PDO in `src/Core/Database.php`
@@ -51,11 +53,11 @@
 - Add better error and feedback handling
 
 ## Next milestones
-1. Make unit tests for the Database class methodes
-2. Review Validator class methodes unit tests 
-3. Make unit tests of the Router class methodes
+1. ✓ Make unit tests for the Database class methods — **COMPLETED**
+2. Review Validator class methods unit tests 
+3. Make unit tests of the Router class methods
 4. Conception of `src/Core/Logger.php` to log user/admin/dev actions
-5. Make unit tests of the Logger class methodes
+5. Make unit tests of the Logger class methods
 
 ## Update format
 After each session, update only the useful sections with this format:
@@ -68,6 +70,12 @@ After each session, update only the useful sections with this format:
 
 ## Light log
 - 2026-07-25 NigerShop : initial memory file created
+- 2026-07-25 NigerShop : **Database & DatabaseTest refinement session completed**
+  - **Completed:** Refined `src/Core/Database.php` with static init(), isConnected(), PHPDoc
+  - **Completed:** Created comprehensive unit tests in `tests/DatabaseTest.php` with fixtures
+  - **Tests added:** testIsConnected, testQuery, testFetch, testFetchReturnsNull, testFetchAll, testFetchColumn, testLastInsertId, testQueryThrowsExceptionWithInvalidSQL
+  - **Key improvements:** Added setUp() with test fixtures, proper assertions, edge case tests
+  - **Git commit:** "Refine Database class and its unit tests"
 
 ## What to remember after each session
 - The completed task.

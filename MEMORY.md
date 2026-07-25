@@ -1,0 +1,87 @@
+# Agent memory (MEMORY.md)
+
+## Project identity
+- **Name:** NigerShop
+- **Type:** Marketplace / e-commerce platform
+- **Target:** Nigerien small merchants and buyers
+- **Current State:** in developement
+- **Stack:** PHP, HTML, CSS, JavaScript, PDO, MySQL/MariaDB, Bootstrap 5
+
+## Current architecture
+- `public/` : front facing pages
+- `src/Core/` : infrastructure classes
+- `src/Controllers/` : business logic and action control
+- `src/Models/` : database entities
+- `src/Helpers/` : reusable utilities
+- `src/Middleware/` : auth/admin protection
+- `includes/` : shared view components
+- `assets/` : styles, JavaScript, images, uploads
+
+##  Evolution history
+### Completed steps
+- Database schema created in `database/nigershop.sql`
+- Light MVC structure put in place with `src/Controllers`, `src/Models`, `src/Core`
+- Authentication built with pages in `public/auth/*.php`
+- A first base of unit tests present in `tests/`
+
+### Notable refactors
+- Consolidated DB access with PDO in `src/Core/Database.php`
+- Centralized validation in `src/Core/Validator.php`
+- Clear separation between controllers and views
+- Renamed and cleaned variables and methods for consistency
+
+## Important decisions
+- Always consider the context of project before proposing a solution.
+- Do not restart from scratch if an architecture or decision has already been validated.
+- For database access use PDO and prepared statements
+- Keep presentation logic in views, business logic in controllers
+- Reuse includes for header/footer/messages
+- When a solution affects UX, keep the interface simple, clear, and suitable for a real project.
+- Avoid duplicated code and large monolithic files.
+- Do not store temporary details that have no long-term value.
+- Always keep the "Next step" section up to date so work can resume quickly.
+- Prefer centralized validation and helpers
+- Keep code readable and evolution-friendly
+
+## Current challenges
+- Link routes and controllers reliably
+- Cover key models with unit tests
+- Secure uploads, sessions and form input
+- Standardize naming and file organization
+- Add better error and feedback handling
+
+## Next milestones
+1. Make unit tests for the Database class methodes
+2. Review Validator class methodes unit tests 
+3. Make unit tests of the Router class methodes
+4. Conception of `src/Core/Logger.php` to log user/admin/dev actions
+5. Make unit tests of the Logger class methodes
+
+## Update format
+After each session, update only the useful sections with this format:
+- Date: YYYY-MM-DD
+- Project: ...
+- Completed task: ...
+- Decision made: ...
+- Files involved: ...
+- Next step: ...
+
+## Light log
+- 2026-07-25 NigerShop : initial memory file created
+
+## What to remember after each session
+- The completed task.
+- The current bug, if any.
+- The next concrete action.
+- The validated technical decisions.
+- The modified files or modules.
+- Newly confirmed user preferences.
+
+## Work preferences
+- Prefer concrete examples in PHP, SQL, CSS, Bootstrap, and basic JavaScript.
+- Explain the reasoning behind technical choices, not just the final code.
+- Favor best practices: validation, security, clean architecture, reusable code.
+
+## Notes
+- Build each feature through controller methods
+- Reuse existing infrastructure where possible

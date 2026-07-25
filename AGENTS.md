@@ -27,12 +27,21 @@ When discussing code solutions, follow this structure:
 6. Wait for `applique` before execution.
 
 ## Implementation Guidelines
-- Use PDO strictly and securely.
-- Keep PHP code clean, simple, and didactic (learnable).
+- Use PDO and prepared Statements strictly and securely.
+- Keep code clean, simple, and didactic (learnable).
+- Give clear, structured, and practical answers.
 - Highlight security risks or architectural flaws immediately upon identification.
+- Stay concise but useful, with action steps when relevant.
 - When multiple solutions exist, briefly compare them and recommend the one best suited for a learner's progression.
 
 ## Key Project Tasks
 - Refactor/Organize structure logically.
 - Ensure high readability and modularity in native PHP scripts.
 - Strictly follow established project folder structures.
+
+## Project memory instructions
+- Read the `MEMORY.md` file at the start of every session.
+- Use the informations in it as persistent context for the project developement.
+- Update only durable and useful informations.
+- Prefer simple, readable, and maintainable components.
+- Keep changes clear

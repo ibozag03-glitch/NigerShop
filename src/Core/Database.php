@@ -19,15 +19,15 @@ class Database{
      * @param string $DB_HOST Database host
      * @param string $DB_NAME Database name
      * @param string $DB_USER Database user
-     * @param string $DB_PWD Database password
+     * @param string $DB_PASS Database password
      * @throws PDOException If connection fails
      * @return void
      */
-    public static function init(string $DB_HOST, string $DB_NAME, string $DB_USER, string $DB_PWD): void
+    public static function init(string $DB_HOST, string $DB_NAME, string $DB_USER, string $DB_PASS): void
     {
         $dsn = "mysql:host={$DB_HOST};dbname={$DB_NAME};charset=UTF8";
         try{
-            self::$database = new PDO($dsn, $DB_USER, $DB_PWD,[
+            self::$database = new PDO($dsn, $DB_USER, $DB_PASS,[
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
             ]);

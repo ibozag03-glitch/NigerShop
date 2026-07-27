@@ -54,10 +54,10 @@
 
 ## Next milestones
 1. ✓ Make unit tests for the Database class methods — **COMPLETED**
-2. Review Validator class methods unit tests 
-3. Make unit tests of the Router class methods
-4. Conception of `src/Core/Logger.php` to log user/admin/dev actions
-5. Make unit tests of the Logger class methods
+2. ✓ Review Validator class methods and its unit tests — **COMPLETED**
+3. Review Router class methods and create unit tests
+4. Conception of `src/Core/Logger.php` to log user/admin/dev actions and create unit tests
+5. Start conception of `src/Models/*.php` files
 
 ## Update format
 After each session, update only the useful sections with this format:
@@ -76,6 +76,10 @@ After each session, update only the useful sections with this format:
   - **Tests added:** testIsConnected, testQuery, testFetch, testFetchReturnsNull, testFetchAll, testFetchColumn, testLastInsertId, testQueryThrowsExceptionWithInvalidSQL
   - **Key improvements:** Added setUp() with test fixtures, proper assertions, edge case tests
   - **Git commit:** "Refine Database class and its unit tests"
+- 2026-07-27 NigerShop : **Validator test documentation session completed**
+  - **Completed:** Refine `tests/Validator.php` and `tests/ValidatorTest.php` unit tests with fixtures
+  - **Completed:** Added PHPDoc comments to `tests/ValidatorTest.php` and `src/Core/Validator.php`
+  - **Git commit:** "Refine Validator class and its unit tests"
 
 ## What to remember after each session
 - The completed task.

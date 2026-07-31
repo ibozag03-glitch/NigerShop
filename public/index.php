@@ -2,8 +2,8 @@
 /**
  * Ce fichier est le point d'entrée de l'application NigerShop. Il initialise l'environnement, charge les dépendances et gère les requêtes entrantes.
 */
-require_once '../vendor/autoload.php';
-require_once '../config/constants.php';
+require_once dirname(__Dir__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
+require_once dirname(__Dir__) . DIRECTORY_SEPARATOR . 'config/constants.php';
 
 use App\Core\Router;
 
@@ -13,10 +13,10 @@ $whoops->register();
 
 $router = new Router(PUBLIC_REP);
 
-$router->getRoute('/', 'homePage', 'home')
-       ->getRoute('/annonces', 'annonces/index', 'Annonces')
-       ->getRoute('/messages', 'messages/index', 'Messages')
-       ->getRoute('/user', 'user/profil', 'Profil Utilisateur')
-       ->getRoute('/login', 'auth/login', 'Connexion')
-       ->getRoute('/register', 'auth/register', 'Inscription')
+$router->get('/', 'homePage', 'home')
+       ->get('/annonces', 'annonces/index', 'annonces')
+       ->get('/messages', 'messages/index', 'messages')
+       ->get('/user', 'user/profile', 'user profile')
+       ->get('/login', 'auth/login', 'connexion')
+       ->get('/register', 'auth/register', 'inscription')
        ->run();

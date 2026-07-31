@@ -7,16 +7,18 @@
 namespace App\Core;
 
 use \AltoRouter;
+use Exception;
 
 class Router {
 
     private string $basePath;
-    private AltoRouter $router;
+    public AltoRouter $router;
 
     public function __construct(string $basePath)
     {
         $this->basePath = $basePath;
         $this->router = new AltoRouter();
+        // $this->router->setBasePath($basePath);
     }
 
     public function url(string $routeName, array $params = []): string
@@ -24,23 +26,65 @@ class Router {
         return $this->router->generate($routeName, $params);
     }
 
-    public function getRoute(string $url, string $path, ?string $name = null)
+    public function get(string $url, string $path, ?string $name = null): Router
     {
         $this->router->map('GET', $url, $path, $name);
+        return $this;
+    }
+
+    public function post(string $url, string $path, ?string $name = null): Router
+    {
+        $this->router->map('POST', $url, $path, $name);
+        return $this;
+    }
+
+    public function put(string $url, string $path, ?string $name = null): Router
+    {
+        $this->router->map('PUT', $url, $path, $name);
+        return $this;
+    }
+
+    public function delete(string $url, string $path, ?string $name = null): Router
+    {
+        $this->router->map('DELETE', $url, $path, $name);
         return $this;
     }
 
     public function run()
     {
         $match = $this->router->match();
-        $path = $match['target'] ?? null;
+
+        if (!$match) {
+            throw new Exception("Aucune route ne correspond à l'Url demandée.", 404);
+        }
+        
+        $target = $match['target'] ?? null;
         $params = $match['params'] ?? [];
 
-        ob_start();
-        require $this->basePath . DIRECTORY_SEPARATOR . $path . '.php';
-        $content = ob_get_clean();
-        require $this->basePath . DIRECTORY_SEPARATOR . 'views/layouts.php';
+        if (!$target) {
+            throw new Exception("Cible de route non définie", 500);
+        }
 
-        return $this;
+        $filePath = $this->basePath . $target . '.php';
+        if (!file_exists($filePath)) {
+            throw new Exception("Fiché de cible introuvable:" . $filePath, 404);
+        }
+
+        try {
+            ob_start();
+            require $filePath;
+            $content = ob_get_clean();
+
+            $layoutPath = require $this->basePath . 'views' . DIRECTORY_SEPARATOR . 'layouts.php';
+            if (file_exists($layoutPath)) {
+                ob_start();
+                require $layoutPath;
+                $content = ob_get_clean();
+            }
+    
+            return $content;
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de l'exécution de la route: " . $e->getMessage(), $e->getCode());
+        }
     }
 }

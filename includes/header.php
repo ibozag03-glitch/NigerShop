@@ -1,4 +1,3 @@
-<?php require_once '../config/constants.php';?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,13 +8,13 @@
     <title><?= SITE_NAME .' - '. $title ?? 'Accueil' ?></title>
 </head>
 <body>
+    <div class="container">
     <?php 
     $register = $_SERVER['REQUEST_URI'] === '/register';
     $login = $_SERVER['REQUEST_URI'] === '/login';
     if($register || $login){
-        
+        require PUBLIC_REP . DIRECTORY_SEPARATOR . 'auth' . DIRECTORY_SEPARATOR . $_SERVER['REQUEST_URI'] . '.php';
     }else{
         require 'navbar.php';
     }
     ?>
-    <div class="container">

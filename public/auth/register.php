@@ -1,10 +1,9 @@
 <?php
-require_once '../../vendor/autoload.php';
+require_once dirname(__Dir__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php';
 
 if(!empty($_POST)){
     echo "Post OK";
 }
-
 // dump($_POST);
 
 $title = 'Inscription';

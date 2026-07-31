@@ -1,10 +1,8 @@
 <?php
-require_once '../../vendor/autoload.php';
+require_once dirname(__Dir__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php';
 
 $title = 'Connexion';
 ?>
-
-<h2 class="text-center">Connexion</h2>
 
 <form action="" method="post" class="form-control m-auto mt-5" style="width: 50%;">
     <h2 class="text-center my-4">Connexion</h2>

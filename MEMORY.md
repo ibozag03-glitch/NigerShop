@@ -11,8 +11,7 @@
 - `public/` : front facing pages
 - `src/Core/` : infrastructure classes
 - `src/Controllers/` : business logic and action control
-- `src/Models/` : database entities
-- `src/Helpers/` : reusable utilities
+- `src/Models/` : datab- `src/Hellpers/` : reusable utilities
 - `src/Middleware/` : auth/admin protection
 - `includes/` : shared view components
 - `assets/` : styles, JavaScript, images, uploads
@@ -25,6 +24,8 @@
 - A first base of unit tests present in `tests/`
 - Database class refined with static init(), isConnected(), and comprehensive PHPDoc
 - Comprehensive unit tests for Database class methods with fixtures in setUp()
+- Validator class refined and its unit tests documented with PHPDoc
+- Router test class improved and comprehensively documented with PHPDoc
 
 ### Notable refactors
 - Consolidated DB access with PDO in `src/Core/Database.php`
@@ -55,7 +56,7 @@
 ## Next milestones
 1. ✓ Make unit tests for the Database class methods — **COMPLETED**
 2. ✓ Review Validator class methods and its unit tests — **COMPLETED**
-3. Review Router class methods and create unit tests
+3. ✓ Review Router class methods and create unit tests — **COMPLETED**
 4. Conception of `src/Core/Logger.php` to log user/admin/dev actions and create unit tests
 5. Start conception of `src/Models/*.php` files
 
@@ -76,9 +77,19 @@ After each session, update only the useful sections with this format:
   - **Tests added:** testIsConnected, testQuery, testFetch, testFetchReturnsNull, testFetchAll, testFetchColumn, testLastInsertId, testQueryThrowsExceptionWithInvalidSQL
   - **Key improvements:** Added setUp() with test fixtures, proper assertions, edge case tests
   - **Git commit:** "Refine Database class and its unit tests"
-- 2026-07-27 NigerShop : **Validator test documentation session completed**
-  - **Completed:** Refine `tests/Validator.php` and `tests/ValidatorTest.php` unit tests with fixtures
+- 2026-07-27 NigerShop : **Validator refactor and test documentation session completed**
+  - **Completed:** Refine `src/Core/Validator.php` and `tests/ValidatorTest.php` unit tests with fixtures
   - **Completed:** Added PHPDoc comments to `tests/ValidatorTest.php` and `src/Core/Validator.php`
+  - **Git commit:** "Refine Validator class and its unit tests"
+- 2026-07-31 NigerShop : **Router refactor, test improvement and documentation session completed**
+  - **Completed:** Refine `src/Core/Router.php` and creation of `tests/RouterTest.php` unit tests
+  - **Completed:** Corrected two broken test methods (testRoutingWithExistingFile and testRoutingWithNonExistingFile)
+  - **Completed:** Added comprehensive PHPDoc comments to all test methods
+  - **Key improvements:** 
+    - Fixed testRoutingWithExistingFile() to properly test existing route matching
+    - Fixed testRoutingWithNonExistingFile() to properly test non-existing route exception handling
+    - Added detailed PHPDoc documentation explaining what each test verifies
+    - Preserved all existing working tests while making only necessary corrections
   - **Git commit:** "Refine Validator class and its unit tests"
 
 ## What to remember after each session

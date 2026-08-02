@@ -34,5 +34,6 @@ NigerShop_DOC
 
 cache/
 logs/
+log/
 *.log
 tmp/

@@ -11,7 +11,8 @@
 - `public/` : front facing pages
 - `src/Core/` : infrastructure classes
 - `src/Controllers/` : business logic and action control
-- `src/Models/` : datab- `src/Hellpers/` : reusable utilities
+- `src/Models/` : database entities
+- `src/Hellpers/` : reusable utilities
 - `src/Middleware/` : auth/admin protection
 - `includes/` : shared view components
 - `assets/` : styles, JavaScript, images, uploads
@@ -20,12 +21,8 @@
 ### Completed steps
 - Database schema created in `database/nigershop.sql`
 - Light MVC structure put in place with `src/Controllers`, `src/Models`, `src/Core`
-- Authentication built with pages in `public/auth/*.php`
-- A first base of unit tests present in `tests/`
-- Database class refined with static init(), isConnected(), and comprehensive PHPDoc
-- Comprehensive unit tests for Database class methods with fixtures in setUp()
-- Validator class refined and its unit tests documented with PHPDoc
-- Router test class improved and comprehensively documented with PHPDoc
+- `src/Core` infrastructre is completed and comprehensively documented with PHPDoc
+- Unit tests present in `tests/`
 
 ### Notable refactors
 - Consolidated DB access with PDO in `src/Core/Database.php`
@@ -57,7 +54,7 @@
 1. ✓ Make unit tests for the Database class methods — **COMPLETED**
 2. ✓ Review Validator class methods and its unit tests — **COMPLETED**
 3. ✓ Review Router class methods and create unit tests — **COMPLETED**
-4. Conception of `src/Core/Logger.php` to log user/admin/dev actions and create unit tests
+4. ✓ Conception of `src/Core/Logger.php` to log user/admin/dev actions and create unit tests — **COMPLETED**
 5. Start conception of `src/Models/*.php` files
 
 ## Update format
@@ -71,17 +68,17 @@ After each session, update only the useful sections with this format:
 
 ## Light log
 - 2026-07-25 NigerShop : initial memory file created
-- 2026-07-25 NigerShop : **Database & DatabaseTest refinement session completed**
+- 2026-07-25 NigerShop : **Database & DatabaseTest classes refinement session completed**
   - **Completed:** Refined `src/Core/Database.php` with static init(), isConnected(), PHPDoc
   - **Completed:** Created comprehensive unit tests in `tests/DatabaseTest.php` with fixtures
   - **Tests added:** testIsConnected, testQuery, testFetch, testFetchReturnsNull, testFetchAll, testFetchColumn, testLastInsertId, testQueryThrowsExceptionWithInvalidSQL
   - **Key improvements:** Added setUp() with test fixtures, proper assertions, edge case tests
   - **Git commit:** "Refine Database class and its unit tests"
-- 2026-07-27 NigerShop : **Validator refactor and test documentation session completed**
+- 2026-07-27 NigerShop : **Validator class refactor and test documentation session completed**
   - **Completed:** Refine `src/Core/Validator.php` and `tests/ValidatorTest.php` unit tests with fixtures
   - **Completed:** Added PHPDoc comments to `tests/ValidatorTest.php` and `src/Core/Validator.php`
   - **Git commit:** "Refine Validator class and its unit tests"
-- 2026-07-31 NigerShop : **Router refactor, test improvement and documentation session completed**
+- 2026-07-31 NigerShop : **Router class refactor, test improvement and documentation session completed**
   - **Completed:** Refine `src/Core/Router.php` and creation of `tests/RouterTest.php` unit tests
   - **Completed:** Corrected two broken test methods (testRoutingWithExistingFile and testRoutingWithNonExistingFile)
   - **Completed:** Added comprehensive PHPDoc comments to all test methods
@@ -91,6 +88,11 @@ After each session, update only the useful sections with this format:
     - Added detailed PHPDoc documentation explaining what each test verifies
     - Preserved all existing working tests while making only necessary corrections
   - **Git commit:** "Refine Validator class and its unit tests"
+- 2026-08-02 NigerShop : **Logger & LoggerTest classes creation and documentation session completed**
+  - **Completed:** Conception of Logger class and creation of `tests/LoggerTest.php` unit tests
+  - **Completed:** Added comprehensive PHPDoc comments to all test methods
+  - **Git commit:** Conception of Logger and creation of its unit tests
+  - **Next step:** Conception of `src/Models` files
 
 ## What to remember after each session
 - The completed task.

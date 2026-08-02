@@ -113,6 +113,7 @@ Accédez au site: http://localhost/NigerShop
 database/          Script de création de la base de donnée
 config/            Configuration et constantes globales
 src/               Toute la logique d'éxécution et de fonctionnement
+tests/             Tout les tests unitaire
 assets/            CSS, JavaScript, images et fichiers uploadés
 includes/          Composants réutilisables
 public/            Pages accessibles par utilisateurs
@@ -146,7 +147,7 @@ NigerShop/
 │   │   ├── Annonce.php            Gestion annonces (CRUD Annonces)
 │   │   ├── Message.php            Gestion messages privés (CRUD Messages)
 │   │   ├── Category.php           Gestion catégories d'annonces (CRUD Catégorie)
-│   │   └── Favorites.php           Gestion annonces favorites (CRUD Favoris)
+│   │   └── Favorites.php          Gestion annonces favorites (CRUD Favoris)
 │   │
 │   ├── Controllers/               Logiques de vérification et de traitement des données
 |   |   |
@@ -163,13 +164,21 @@ NigerShop/
 │   │   ├── Session.php            Gestion sécurisée des sessions
 │   │   └── Security.php           Protection CSRF et sécurité
 │   │
-│   ├── Middleware/                Filtres de sécurité et contrôle d'accès
-|   |   |
-│   |   ├── AuthMiddleware.php     Vérifier que l'utilisateur est connecté
-│   |   └── AdminMiddleware.php    Vérifier que l'utilisateur est administrateur
-|   │
-|   └── Test/                      Dossier pour les tests unitaires
-|       
+│   └── Middleware/                Filtres de sécurité et contrôle d'accès
+|       |
+│       ├── AuthMiddleware.php     Vérifier que l'utilisateur est connecté
+│       └── AdminMiddleware.php    Vérifier que l'utilisateur est administrateur
+│    
+├── Tests/                         Dossier pour les tests unitaires (Ceci n'est pas le visuel exact du dossier tests)
+│   |
+│   ├── testCore/                  Tests des classes d'infrastructure
+│   │   │
+│   │   ├── DatabaseTest.php
+│   │   ├── RouterTest.php
+│   │   ├── LoggerTest.php
+│   │   └── ValidatorTest.php
+│   │
+│   └── testModels/
 │
 ├── assets/                        Ressources de la plateforme (CSS, JavaScript, images, uploads)
 │   │
@@ -318,7 +327,7 @@ Ce projet est sous Licence Apache-2.0
 
 Pour toute question ou problème:
 - Créez une issue sur GitHub
-- Consultez la FAQ (pages/static/faq.php) 
+- Consultez la FAQ 
 
 ---
 **Version**: 1.0.0 (Version de départ);

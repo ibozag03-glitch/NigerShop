@@ -56,6 +56,11 @@
 3. ✓ Review Router class methods and create unit tests — **COMPLETED**
 4. ✓ Conception of `src/Core/Logger.php` to log user/admin/dev actions and create unit tests — **COMPLETED**
 5. Start conception of `src/Models/*.php` files
+  - Designing User model and it's unit test — **Pending**
+  - Designing Category model and it's unit test
+  - Designing Annonce model and it's unit test
+  - Designing Favorite model and it's unit test
+  - Designing Message model and it's unit test
 
 ## Update format
 After each session, update only the useful sections with this format:
@@ -93,6 +98,16 @@ After each session, update only the useful sections with this format:
   - **Completed:** Added comprehensive PHPDoc comments to all test methods
   - **Git commit:** Conception of Logger and creation of its unit tests
   - **Next step:** Conception of `src/Models` files
+- 2026-08-04 NigerShop : **Designing User.php model**
+  - **Completed:** Handling data comming from the users tables with apropriete properties
+  - **Completed:** CRUD operations designed
+  - **Completed:** Validation of user information before adding to the database
+  - **Git commit:** Models/Use - v1.0
+- 2026-08-10 NigerShop : **Fixed User.php model – corrected static property usage and typo**
+  - **Completed:** Changed all property accesses from self::$property to $this->property
+  - **Completed:** Verified that CRUD operations, validation, and password hashing work correctly
+  - **Git commit:** [fix] : variable instanciation call
+  - **Next step:** Write unit tests for User model (tests/UserTest.php)
 
 ## What to remember after each session
 - The completed task.

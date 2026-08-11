@@ -24,6 +24,25 @@ class User {
     private string $modification_date;
     private string $status = "active";
 
+    public static function fromArray(array $row): self
+    {
+        $user = new self();
+        $user->user_id = $row['user_id'] ?? null;
+        $user->firstname = $row['firstname'] ?? "";
+        $user->lastname = $row['lastname'] ?? "";
+        $user->email = $row['email'] ?? "";
+        $user->password = $row['password'] ?? "";
+        $user->address = $row['address'] ?? "";
+        $user->phone = $row['phone'] ?? "";
+        $user->birth_date = $row['birth_date'] ?? "";
+        $user->role = $row['role'] ?? "user";
+        $user->inscription_date = $row['inscription_date'] ?? "";
+        $user->modification_date = $row['modification_date'] ?? "";
+        $user->status = $row['status'] ?? "active";
+
+        return $user;
+    }
+
     public static function findById(int $user_id): ?self
     {
         try {
@@ -85,6 +104,9 @@ class User {
         if (!$validator->isValid()) {
             throw new Exception("VALIDATION ERROR : " . implode('; ', $validator->getErrors()));
         }
+
+        $this->inscription_date = date("Y-m-d H:i:s");
+        $this->modification_date = date("Y-m-d H:i:s");
 
         $sql = "INSERT INTO " . self::TABLE . " 
         (firstname, lastname, email, password, address, phone, birth_date, role, status, inscription_date, modification_date) 
@@ -178,25 +200,6 @@ class User {
             }
             return $this->create();
         }
-    }
-
-    public function fromArray(array $row): self
-    {
-        $user = new self();
-        $user->user_id = $row['user_id'] ?? null;
-        $user->firstname = $row['firstname'] ?? "";
-        $user->lastname = $row['lastname'] ?? "";
-        $user->email = $row['email'] ?? "";
-        $user->password = $row['password'] ?? "";
-        $user->address = $row['address'] ?? "";
-        $user->phone = $row['phone'] ?? "";
-        $user->birth_date = $row['birth_date'] ?? "";
-        $user->role = $row['role'] ?? "user";
-        $user->inscription_date = $row['inscription_date'] ?? "";
-        $user->modification_date = $row['modification_date'] ?? "";
-        $user->status = $row['status'] ?? "active";
-
-        return $user;
     }
 
     public function setUserId(int $user_id): self

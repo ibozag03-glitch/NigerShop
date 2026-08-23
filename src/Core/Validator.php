@@ -298,10 +298,12 @@ class Validator {
     public function validCategory(string $name, string $slug, string $description, array $data): self
     {
         $this->required($name, $data[$name] ?? '');
-        $this->maxLength($name, $data[$name] ?? '', 255);
+        $this->minLength($name, $data[$name] ?? '', 5);
+        $this->maxLength($name, $data[$name] ?? '', 25);
         $this->unique("categories", $name, $data[$name] ?? '');
 
         $this->required($slug, $data[$slug] ?? '');
+        $this->minLength($name, $data[$name] ?? '', 5);
         $this->maxLength($slug, $data[$slug] ?? '', 255);
         $this->unique("categories", $slug, $data[$slug] ?? '');
 

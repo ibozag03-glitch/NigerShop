@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ * This file handle category data operation and validation
 */
 namespace App\Models;
 

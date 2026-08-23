@@ -293,13 +293,32 @@ class Validator {
     }
 
     /**
+     * 
+     */
+    public function validCategory(string $name, string $slug, string $description, array $data): self
+    {
+        $this->required($name, $data[$name] ?? '');
+        $this->maxLength($name, $data[$name] ?? '', 255);
+        $this->unique("categories", $name, $data[$name] ?? '');
+
+        $this->required($slug, $data[$slug] ?? '');
+        $this->maxLength($slug, $data[$slug] ?? '', 255);
+        $this->unique("categories", $slug, $data[$slug] ?? '');
+
+        $this->required($description, $data[$description] ?? '');
+        $this->maxLength($description, $data[$description] ?? '', 500);
+
+        return $this;
+    }
+
+    /**
      * Validate that a category ID exists in the categories table.
      *
      * @param string $field Field name used for error messages
      * @param mixed $value Category ID
      * @return self
      */
-    public function validCategory(string $field, mixed $value): self
+    public function checkCategory(string $field, int $value): self
     {
         if (filter_var($value, FILTER_VALIDATE_INT) === false) {
             $this->errors[$field] = "La $field est invalide";

@@ -56,11 +56,11 @@
 3. ✓ Review Router class methods and create unit tests — **COMPLETED**
 4. ✓ Conception of `src/Core/Logger.php` to log user/admin/dev actions and create unit tests — **COMPLETED**
 5. Start conception of `src/Models/*.php` files
-  - Designing User model and it's unit test — **COMPLETED**
-  - Designing Category model and it's unit test
-  - Designing Annonce model and it's unit test
-  - Designing Favorite model and it's unit test
-  - Designing Message model and it's unit test
+  - Designing User model and its unit test — **COMPLETED**
+  - Designing Category model and its unit test — **COMPLETED**
+  - Designing Annonce model and its unit test
+  - Designing Favorite model and its unit test
+  - Designing Message model and its unit test
 
 ## Update format
 After each session, update only the useful sections with this format:
@@ -101,7 +101,7 @@ After each session, update only the useful sections with this format:
 - 2026-08-04 NigerShop : **Designing User.php model**
   - **Completed:** Handling data comming from the users tables with apropriete properties
   - **Completed:** CRUD operations designed
-  - **Completed:** Validation of user information before adding to the database
+  - **Completed:** Validation of user informations before adding to the database
   - **Git commit:** Models/Use - v1.0
 - 2026-08-10 NigerShop : **Fixed User.php model – corrected static property usage and typo**
   - **Completed:** Changed all property accesses from self::$property to $this->property
@@ -111,7 +111,15 @@ After each session, update only the useful sections with this format:
 - 2026-08-21 NigerShop : **Fixed UserTest.php - corrected tests design**
   - **Completed:** Refactor all test fonctions for better verification
   -**Git commit:** [update] : refactor `UserTest.php` tests
-  -**Next step:** Design Category model and it's unit tests
+  -**Next step:** Design Category model and its unit tests
+- 2026-08-23 NigerShop : **Designing Category.php model and its unit tests**
+  - **Completed:** Handling data comming from the categories table with apropriete properties
+  - **Completed:** CRUD operations designed
+  - **Completed:** Validation of categories datas before adding to the database
+  - **Completed:** All methods tests pass correctly
+  - **First git commit:** Models/Category - v1.0
+  - **Second git commit:** Category model unit tests
+  - **Next step:** Design Annonce model and its unit tests
 
 ## What to remember after each session
 - The completed task.

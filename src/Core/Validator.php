@@ -365,6 +365,32 @@ class Validator {
     }
 
     /**
+     * Validate that a specific annonce ID exists in the annonce table.
+     *
+     * @param string $field Field name used for error messages
+     * @param mixed $value Category ID
+     * @return self
+     */
+    public function checkAnnonce(string $field, mixed $value): self
+    {
+        if (filter_var($value, FILTER_VALIDATE_INT) === false) {
+            $this->errors[$field] = "La $field est invalide";
+            return $this;
+        }
+
+        $this->ensureDatabase();
+
+        $searchSQL = "SELECT COUNT(*) as count FROM annonces WHERE annonce_id = :id";
+        $result = Database::fetchColumn($searchSQL, ["id" => $value]);
+
+        if ($result === false || (int) $result === 0) {
+            $this->errors[$field] = "cette $field n'existe pas.";
+        }
+
+        return $this;
+    }
+
+    /**
      * Checks whether the current validation has no errors.
      * 
      * @return bool

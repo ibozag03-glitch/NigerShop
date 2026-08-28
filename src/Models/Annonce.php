@@ -70,7 +70,7 @@ class Annonce {
      * @param int $category_id
      * @return array because it could fetch multiple rows from the database
      */
-    public static function findByCategory(int $category_id): array
+    public static function findByCategory(int $category_id): ?array
     {
         $sql = "SELECT * FROM " . self::TABLE. " WHERE category_id = :id";
         $params = ["id" => $category_id];
@@ -81,7 +81,7 @@ class Annonce {
             $annonces[] = self::fromArray($result);
         }
 
-        return $annonces;
+        return ($annonces) ? $annonces : null;
     }
 
     /**
@@ -90,7 +90,7 @@ class Annonce {
      * @param int $owner_id
      * @return array because it could fetch multiple rows from the database
      */
-    public static function findByOwner(int $owner_id): array
+    public static function findByOwner(int $owner_id): ?array
     {
         $sql = "SELECT * FROM " . self::TABLE. " WHERE owner_id = :id ORDER BY creation_date DESC";
         $params = ["id" => $owner_id];
@@ -101,7 +101,7 @@ class Annonce {
             $annonces[] = self::fromArray($result);
         }
 
-        return $annonces;
+        return ($annonces) ? $annonces : null;
     }
     
     /**
@@ -194,7 +194,7 @@ class Annonce {
     public function update(): bool
     {
         $validator = new Validator();
-        $validator->checkAnnonce("annoces", $this->annonce_id)
+        $validator->checkAnnonce("annonces", $this->annonce_id)
             ->validAnnonce("title", "descriptions", "price", [
             "title" => $this->title,
             "descriptions" => $this->descriptions,
@@ -231,7 +231,6 @@ class Annonce {
             "price" => $this->price,
             "state" => $this->state,
             "product_image" => $this->product_image,
-            "creation_date" => $this->creation_date,
             "modification_date" => $this->modification_date,
             "status" => $this->status
         ];

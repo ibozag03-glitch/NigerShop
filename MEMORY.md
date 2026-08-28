@@ -56,11 +56,11 @@
 3. ✓ Review Router class methods and create unit tests — **COMPLETED**
 4. ✓ Conception of `src/Core/Logger.php` to log user/admin/dev actions and create unit tests — **COMPLETED**
 5. Start conception of `src/Models/*.php` files
-  - Designing User model and its unit test — **COMPLETED**
-  - Designing Category model and its unit test — **COMPLETED**
-  - Designing Annonce model and its unit test
-  - Designing Favorite model and its unit test
-  - Designing Message model and its unit test
+    - Designing User model and its unit test — **COMPLETED**
+    - Designing Category model and its unit test — **COMPLETED**
+    - Designing Annonce model and its unit test — **COMPLETED**
+    - Designing Favorite model and its unit test
+    - Designing Message model and its unit test
 
 ## Update format
 After each session, update only the useful sections with this format:
@@ -110,9 +110,9 @@ After each session, update only the useful sections with this format:
   - **Next step:** Write unit tests for User model (tests/UserTest.php)
 - 2026-08-21 NigerShop : **Fixed UserTest.php - corrected tests design**
   - **Completed:** Refactor all test fonctions for better verification
-  -**Git commit:** [update] : refactor `UserTest.php` tests
-  -**Next step:** Design Category model and its unit tests
-- 2026-08-23 NigerShop : **Designing Category.php model and its unit tests**
+  - **Git commit:** [update] : refactor `UserTest.php` tests
+  - **Next step:** Design Category model and its unit tests
+- 2026-08-23 NigerShop : **Category model and unit tests completed**
   - **Completed:** Handling data comming from the categories table with apropriete properties
   - **Completed:** CRUD operations designed
   - **Completed:** Validation of categories datas before adding to the database
@@ -120,6 +120,13 @@ After each session, update only the useful sections with this format:
   - **First git commit:** Models/Category - v1.0
   - **Second git commit:** Category model unit tests
   - **Next step:** Design Annonce model and its unit tests
+- 2026-08-28 NigerShop : **Annonce model and unit tests completed**
+  - **Completed:** Covered Annonce searches by ID, category, owner and slug
+  - **Completed:** Added valid and invalid tests for create, update and delete operations
+  - **Completed:** Verified returned Annonce objects and database persistence after update and delete
+  - **First git commit:** Models/Annonce - v1.0
+  - **Second git commit:** Annonce model unit tests
+  - **Next step:** Design Favorite model and its unit tests
 
 ## What to remember after each session
 - The completed task.

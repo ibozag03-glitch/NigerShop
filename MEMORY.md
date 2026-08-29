@@ -59,7 +59,7 @@
     - Designing User model and its unit test — **COMPLETED**
     - Designing Category model and its unit test — **COMPLETED**
     - Designing Annonce model and its unit test — **COMPLETED**
-    - Designing Favorite model and its unit test
+    - Designing Favorite model and its unit test — **COMPLETED**
     - Designing Message model and its unit test
 
 ## Update format
@@ -68,6 +68,7 @@ After each session, update only the useful sections with this format:
 - Project: ...
 - Completed task: ...
 - Decision made: ...
+- Git commit: ...
 - Files involved: ...
 - Next step: ...
 
@@ -127,6 +128,13 @@ After each session, update only the useful sections with this format:
   - **First git commit:** Models/Annonce - v1.0
   - **Second git commit:** Annonce model unit tests
   - **Next step:** Design Favorite model and its unit tests
+- 2026-08-30 NigerShop : **Favorite model and unit tests completed**
+  - **Completed:** Implemented `src/Models/Favorites.php` with CRUD-like operations for the composite favorite key
+  - **Completed:** Added `tests/FavoritesTest.php` covering add, duplicate rejection, lookup by user/annonce, full list, and remove cases
+  - **First git commit:** Models/Favorites - v1.0
+  - **Second git commit:** Favorites modem unit tests
+  - **Files involved:** `src/Models/Favorites.php`, `tests/FavoritesTest.php`
+  - **Next step:** Design Message model and its unit tests
 
 ## What to remember after each session
 - The completed task.

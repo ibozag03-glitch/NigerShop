@@ -23,8 +23,8 @@ class Favorites {
     public static function fromArray(array $row): Favorites
     {
         $favorite = new self();
-        $favorite->annonce_id = $row['annonce_id'] ?? null;
-        $favorite->user_id = $row['user_id'] ?? null;
+        $favorite->annonce_id = (int)$row['annonce_id'] ?? null;
+        $favorite->user_id = (int)$row['user_id'] ?? null;
         $favorite->add_date = $row['add_date'] ?? "";
 
         return $favorite;
@@ -138,7 +138,7 @@ class Favorites {
     public function add(): bool
     {
         if ($this->annonce_id === null || $this->user_id === null) {
-            throw new Exception("Impossible d'ajouter une annonce aux favoris sans d'identifiant d'utilisateur et d'annonce");
+            throw new Exception("FAIL TO ADD: Impossible d'ajouter une annonce aux favoris sans d'identifiant d'utilisateur et d'annonce");
         }
         
         $existingFavorite = Favorites::findByUserAndAnnonce($this->user_id, $this->annonce_id);

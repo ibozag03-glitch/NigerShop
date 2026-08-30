@@ -60,6 +60,7 @@
     - Designing Category model and its unit test — **COMPLETED**
     - Designing Annonce model and its unit test — **COMPLETED**
     - Designing Favorite model and its unit test — **COMPLETED**
+    - Designing Discussion model and its unit test
     - Designing Message model and its unit test
 
 ## Update format

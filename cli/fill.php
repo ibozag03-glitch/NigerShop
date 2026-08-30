@@ -79,6 +79,45 @@ $sqlTables =
         CONSTRAINT annonces_by_categories_annonce_id_FK FOREIGN KEY (annonce_id) REFERENCES annonces (annonce_id) ON DELETE CASCADE,
         CONSTRAINT annonces_by_categories_catergory_id_FK FOREIGN KEY (category_id) REFERENCES categories (category_id) ON DELETE CASCADE
     )ENGINE=InnoDB;
+
+    CREATE TABLE favorites (
+        annonce_id INT UNSIGNED NOT NULL,
+        user_id INT UNSIGNED NOT NULL,
+        add_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT favorites_PK PRIMARY KEY (annonce_id, user_id),
+        CONSTRAINT favorites_annonce_id_FK FOREIGN KEY (annonce_id) REFERENCES annonces (annonce_id) ON DELETE CASCADE,
+        CONSTRAINT favorites_user_id_FK FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
+    )ENGINE=InnoDB;
+
+    CREATE TABLE discussions (
+        discussion_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        modification_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        annonce_id INT UNSIGNED NOT NULL,
+        customer_id INT UNSIGNED NOT NULL,
+        seller_id INT UNSIGNED NOT NULL,
+        status ENUM('active','closed','blocked') NOT NULL DEFAULT 'active',
+        last_message TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+        CONSTRAINT discussions_PK PRIMARY KEY (discussion_id),
+        CONSTRAINT discussions_annonce_id_FK FOREIGN KEY (annonce_id) REFERENCES annonces (annonce_id) ON DELETE CASCADE,
+        CONSTRAINT discussions_customer_id_FK FOREIGN KEY (customer_id) REFERENCES users (user_id) ON DELETE CASCADE,
+        CONSTRAINT discussions_seller_id_FK FOREIGN KEY (seller_id) REFERENCES users (user_id) ON DELETE CASCADE,
+        CONSTRAINT discussions_upd UNIQUE (annonce_id, customer_id, seller_id)
+    )ENGINE=InnoDB;
+
+    CREATE TABLE messages (
+        message_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        content TEXT NOT NULL,
+        send_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        seen BOOLEAN NOT NULL DEFAULT FALSE,
+        discussion_id INT UNSIGNED NOT NULL,
+        sender_id INT UNSIGNED NOT NULL,
+        receiver_id INT UNSIGNED NOT NULL,
+        CONSTRAINT messages_PK PRIMARY KEY (message_id),
+        CONSTRAINT messages_discussion_id_FK FOREIGN KEY (discussion_id) REFERENCES discussions (discussion_id) ON DELETE CASCADE,
+        CONSTRAINT messages_sender_id_FK FOREIGN KEY (sender_id) REFERENCES users (user_id) ON DELETE CASCADE,
+        CONSTRAINT messages_receiver_id_FK FOREIGN KEY (receiver_id) REFERENCES users (user_id) ON DELETE CASCADE
+    )ENGINE=InnoDB;
 ";
 
 Database::query($sqlTables);

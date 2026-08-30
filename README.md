@@ -89,6 +89,7 @@ Accédez au site: http://localhost/NigerShop
 3. Créer une annonce
 4. Gérer ses annonces
 5. Répondre aux messages
+6. Conclure les ventes
 
 ### Pour un Acheteur
 
@@ -119,7 +120,7 @@ includes/          Composants réutilisables
 public/            Pages accessibles par utilisateurs
 ```
 
-### Détail des Dossiers
+### Détails des Répertoires
 
 ```
 NigerShop/
@@ -143,10 +144,11 @@ NigerShop/
 │   │
 │   ├── Models/                    Requêtes et opérations sur la base de données
 |   |   |
-│   │   ├── User.php               Gestion utilisateurs (CRUD Utilisateur)
+│   │   ├── User.php               Gestion utilisateurs (CRUD Utilisateurs)
 │   │   ├── Annonce.php            Gestion annonces (CRUD Annonces)
+│   │   ├── Discussion.php         Gestion discussions (CRUD Discussions)
 │   │   ├── Message.php            Gestion messages privés (CRUD Messages)
-│   │   ├── Category.php           Gestion catégories d'annonces (CRUD Catégorie)
+│   │   ├── Category.php           Gestion catégories d'annonces (CRUD Catégories)
 │   │   └── Favorites.php          Gestion annonces favorites (CRUD Favoris)
 │   │
 │   ├── Controllers/               Logiques de vérification et de traitement des données
@@ -178,7 +180,14 @@ NigerShop/
 │   │   ├── LoggerTest.php
 │   │   └── ValidatorTest.php
 │   │
-│   └── testModels/
+│   └── testModels/                Tests des classes d'opérations des données
+│        │
+│        ├── UserTest.php
+│        ├── CategoryTest.php
+│        ├── AnnonceTest.php
+│        ├── FavoritesTest.php
+│        ├── DiscussionTest.php
+│        └── MessageTest.php
 │
 ├── assets/                        Ressources de la plateforme (CSS, JavaScript, images, uploads)
 │   │
@@ -265,18 +274,18 @@ Le projet suit l'architecture MVC (Model-View-Controller):
 
 1. Conception de la base de donnée `database/*` de la plateforme
 2. Conception de .env, .env.exemple et de `config/*` pour le lancement de l'environnement de travail
-3. Conception de `pages/auth/*` et logout pour le visuel des pages d'inscription et de connexion
-4. Conception de `src/core/*` pour l'infrastructure de base de la plateforme
-5. Conception de `src/models/*` pour gérer le C.R.U.D en Base de Donnée
-6. Conception de `src/controllers/*` pour contrôler le traitement des données qui entre et circule dans la plateforme
-7. Conception de register et login entièrement fonctionnel (CRUD utilisateur, contrôle des entrées, messages d'erreur et redirection /index)
-8. Conception de `src/helpers/*` pour concevoir des fonctions d'aide pour les autres dossiers
-9. Conception de `src/middleware/*` pour filtrer et contrôler les accès sur les différentes pages de la plateforme
-10. Conception d'un visuel de la pages d'accueil de la plateforme
-11. Conception de `pages/annonces/*` permettant de pouvoir créer, modifier et chercher des annonces sur la plateforme
-12. Conception de `pages/messages/*` permettant au utilisateur de marchander sur différentes annonces de la plateforme
-13. Conception de `pages/user/*` permettant à l'utilisateur d'avoir un visuel sur ses infos personnel et ses avtivité sur la plateforme
-14. Conception de `pages/admin/*` permettant à l'administrateur de réguler les activité sur la plateforme
+3. Conception de `src/core/*` pour l'infrastructure de base de la plateforme
+4. Conception de `src/models/*` pour gérer le C.R.U.D en Base de Donnée
+5. Conception de `src/controllers/*` pour contrôler le traitement des données qui entre et circule dans la plateforme
+6. Conception de `src/middleware/*` pour filtrer et contrôler les accès sur les différentes pages de la plateforme
+7. Conception de `src/helpers/*` pour concevoir des fonctions d'aide pour les autres dossiers
+8. Conception d'un visuel de la pages d'accueil de la plateforme
+9. Conception de `public/auth/*` pour le visuel des pages d'inscription et de connexion
+10. Conception de register et login entièrement fonctionnel (CRUD utilisateur, contrôle des entrées, messages d'erreur et redirection /index)
+11. Conception de `public/annonces/*` permettant de pouvoir créer, modifier et chercher des annonces sur la plateforme
+12. Conception de `public/messages/*` permettant au utilisateur de marchander sur différentes annonces de la plateforme
+13. Conception de `public/user/*` permettant à l'utilisateur d'avoir un visuel sur ses infos personnel et ses avtivité sur la plateforme
+14. Conception de `public/admin/*` permettant à l'administrateur de réguler les activité sur la plateforme
 15. Conception finale de la pages d'accueil de la plateforme
 
 ### Exemple de logique d'exécution: Créer une Annonce
@@ -286,7 +295,7 @@ Le projet suit l'architecture MVC (Model-View-Controller):
 3. Formulaire est rempli et soumis
 4. create.php appelle AnnonceController
 5. Controller valide les données
-6. Controller appelle AnnonceModel pour insérer en Base de Donnée
+6. Controller appelle le model Annonce pour insérer en Base de Donnée
 7. Model exécute la requête SQL sécurisée
 8. Résultat retourne au Controller
 9. Controller retourne le résultat à la Vue
@@ -303,7 +312,7 @@ Et BIM !! Vous venez de créer une Annonce !!
 
 ## Bonnes Pratiques du Projet
 
-1. **Séparation des responsabilités**: Chaque fichier a une seule responsabilité ( *diviser pour mieux reigner ;)* )
+1. **Séparation des responsabilités**: Chaque fichier  une seule responsabilité (*diviser pour mieux reigner ;)*)
 2. **Réutilisabilité**: Code partagé dans Models, Controllers et Helpers
 3. **Maintenabilité**: Structure claire et organisation logique
 4. **Sécurité**: PDO, hachage, validation, surveillance d'accéssiblité

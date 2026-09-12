@@ -60,7 +60,7 @@
     - Designing Category model and its unit test — **COMPLETED**
     - Designing Annonce model and its unit test — **COMPLETED**
     - Designing Favorite model and its unit test — **COMPLETED**
-    - Designing Discussion model and its unit test
+    - Designing Discussion model and its unit test — **COMPLETED**
     - Designing Message model and its unit test
 
 ## Update format
@@ -135,6 +135,12 @@ After each session, update only the useful sections with this format:
   - **First git commit:** Models/Favorites - v1.0
   - **Second git commit:** Favorites modem unit tests
   - **Files involved:** `src/Models/Favorites.php`, `tests/FavoritesTest.php`
+- 2026-09-12 NigerShop : **Discussion model and unit tests completed**
+  - **Completed:** Implemented discussion lookup, creation, update and deletion operations
+  - **Completed:** Added centralized discussion validation for required IDs, positive IDs, allowed statuses and distinct customer/seller IDs
+  - **Completed:** Added tests for lookup, empty results, invalid creation, update and deletion scenarios
+  - **Git commit:** Model/Discussion - v1.0 and its unit tests
+  - **Files involved:** `src/Models/Discussion.php`, `src/Core/Validator.php`, `tests/DiscussionTest.php`
   - **Next step:** Design Message model and its unit tests
 
 ## What to remember after each session

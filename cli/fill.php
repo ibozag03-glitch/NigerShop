@@ -97,11 +97,12 @@ $sqlTables =
         customer_id INT UNSIGNED NOT NULL,
         seller_id INT UNSIGNED NOT NULL,
         status ENUM('active','closed','blocked') NOT NULL DEFAULT 'active',
-        last_message TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+        last_message_at TIMESTAMP NULL DEFAULT NULL,
         CONSTRAINT discussions_PK PRIMARY KEY (discussion_id),
         CONSTRAINT discussions_annonce_id_FK FOREIGN KEY (annonce_id) REFERENCES annonces (annonce_id) ON DELETE CASCADE,
         CONSTRAINT discussions_customer_id_FK FOREIGN KEY (customer_id) REFERENCES users (user_id) ON DELETE CASCADE,
         CONSTRAINT discussions_seller_id_FK FOREIGN KEY (seller_id) REFERENCES users (user_id) ON DELETE CASCADE,
+        CONSTRAINT discussion_customer_seller_different CHECK(customer_id <> seller_id),
         CONSTRAINT discussions_upd UNIQUE (annonce_id, customer_id, seller_id)
     )ENGINE=InnoDB;
 

@@ -187,6 +187,22 @@ class Validator {
     }
     
     /**
+     * Validate that two values don't match
+     * 
+     * @param string $field Field name used for error messages
+     * @param mixed $value1 First value
+     * @param mixed $value2 Second value
+     * @return self
+     */
+    public function dontMatch(string $field, mixed $value1, mixed $value2): self
+    {
+        if ($value1 === $value2) {
+            $this->errors[$field] = "les $field sont identique.";
+        }
+        return $this;
+    }
+    
+    /**
      * Validate minimum string length.
      *
      * @param string $field Field name used for error messages
@@ -247,6 +263,26 @@ class Validator {
         }
         return $this;
     }
+    
+    /**
+     * Validate that the value is positive
+     * 
+     * @param $field Field name used for error message
+     * @param mixed $value Value to validate
+     * @return self
+     */
+    public function isPositive(string $field, mixed $value): self
+    {
+        if (!is_numeric($value)) {
+            $this->errors[$field] = "$field n'est pas un nombre";
+            return $this;
+        }
+
+        if ($value <= 0) {
+            $this->errors[$field] = "$field doit être une valeur positive";
+        }
+        return $this;
+    }
 
     /**
      * Validate that the value represents a boolean.
@@ -293,7 +329,12 @@ class Validator {
     }
 
     /**
+     * Validate category input fields.
      * 
+     * @param string $name Field name for category name
+     * @param string $slug Field name for category slug
+     * @param string $description Field name for category description
+     * @param array $data Input data array
      */
     public function validCategory(string $name, string $slug, string $description, array $data): self
     {
@@ -360,6 +401,7 @@ class Validator {
 
         $this->required($prix, $data[$prix] ?? '');
         $this->isNumber($prix, $data[$prix] ?? '');
+        $this->isPositive($prix, $data[$prix] ?? '');
 
         return $this;
     }
@@ -381,6 +423,69 @@ class Validator {
         $this->ensureDatabase();
 
         $searchSQL = "SELECT COUNT(*) as count FROM annonces WHERE annonce_id = :id";
+        $result = Database::fetchColumn($searchSQL, ["id" => $value]);
+
+        if ($result === false || (int) $result === 0) {
+            $this->errors[$field] = "cette $field n'existe pas.";
+        }
+
+        return $this;
+    }
+
+    /**
+     * Valid discussion information
+     * 
+     * @param string $annonceId Field name for annonce identifier
+     * @param string $customerId Field name for customer identifier
+     * @param string $sellerId Field name for seller identifier
+     * @param string $status Field name for discussion status
+     * @param array $data Contains the actual identifier
+     * @return self
+     */
+    public function validDiscussion(
+        string $annonceId, string $customerId, string $sellerId, string $status, array $data): self
+    {
+        $this->required($annonceId, $data[$annonceId] ?? "");
+        $this->isInteger($annonceId, $data[$annonceId] ?? "");
+        $this->isPositive($annonceId, $data[$annonceId] ?? "");
+        
+        $this->required($customerId, $data[$customerId] ?? "");
+        $this->isInteger($customerId, $data[$customerId] ?? "");
+        $this->isPositive($customerId, $data[$customerId] ?? "");
+        
+        $this->required($sellerId, $data[$sellerId] ?? "");
+        $this->isInteger($sellerId, $data[$sellerId] ?? "");
+        $this->isPositive($sellerId, $data[$sellerId] ?? "");
+        
+        $this->required($status, $data[$status] ?? "");
+
+        $this->dontMatch("users id", $data[$customerId] ?? null, $data[$sellerId] ?? null);
+
+        $allowedStatus = ["active", "closed", "blocked"];
+        if (!in_array($data[$status] ?? null, $allowedStatus, true)) {
+            $this->errors[$status] = "Le status n'est pas un status invalid";
+        }
+
+        return $this;
+    }
+
+    /**
+     * Validate that a specific discussion id exist in the discussion table
+     * 
+     * @param string $field Field name used for error messages
+     * @param mixed $value Category ID
+     * @return self
+     */
+    public function checkDiscussion(string $field, mixed $value): self
+    {
+        if (filter_var($value, FILTER_VALIDATE_INT) === false) {
+            $this->errors[$field] = "La $field est invalide";
+            return $this;
+        }
+
+        $this->ensureDatabase();
+
+        $searchSQL = "SELECT COUNT(*) as count FROM discussions WHERE discussion_id = :id";
         $result = Database::fetchColumn($searchSQL, ["id" => $value]);
 
         if ($result === false || (int) $result === 0) {

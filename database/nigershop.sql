@@ -112,12 +112,14 @@ CREATE TABLE discussions (
 -- ----------------------------
 CREATE TABLE messages (
     message_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    content TEXT NOT NULL,
-    send_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    seen BOOLEAN NOT NULL DEFAULT FALSE,
     discussion_id INT UNSIGNED NOT NULL,
     sender_id INT UNSIGNED NOT NULL,
     receiver_id INT UNSIGNED NOT NULL,
+    content TEXT NOT NULL,
+    is_sent BOOLEAN NOT NULL DEFAULT TRUE,
+    is_delivered BOOLEAN NOT NULL DEFAULT FALSE,
+    is_read BOOLEAN NOT NULL DEFAULT FALSE,
+    sent_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT messages_PK PRIMARY KEY (message_id),
     CONSTRAINT messages_discussion_id_FK FOREIGN KEY (discussion_id) REFERENCES discussions (discussion_id) ON DELETE CASCADE,
     CONSTRAINT messages_sender_id_FK FOREIGN KEY (sender_id) REFERENCES users (user_id) ON DELETE CASCADE,

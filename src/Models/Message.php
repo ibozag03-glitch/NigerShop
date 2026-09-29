@@ -16,7 +16,7 @@ class Message {
     private string $sent_at = "";
     private bool $is_sent = TRUE;
     private bool $is_delivered = FALSE;
-    private bool $seen = FALSE;
+    private bool $is_read = FALSE;
     private ?int $discussion_id = null;
     private ?int $sender_id = null;
     private ?int $receiver_id = null;
@@ -35,7 +35,7 @@ class Message {
         $message->sent_at = $row['sent_at'] ?? "";
         $message->is_sent = (bool)$row['is_sent'] ?? TRUE;
         $message->is_delivered = (bool)$row['is_delivered'] ?? FALSE;
-        $message->seen = (bool)$row['seen'] ?? FALSE;
+        $message->is_read = (bool)$row['is_read'] ?? FALSE;
         $message->discussion_id = (int)$row['discussion_id'] ?? null;
         $message->sender_id = (int)$row['sender_id'] ?? null;
         $message->receiver_id = (int)$row['receiver_id'] ?? null;
@@ -166,10 +166,10 @@ class Message {
     public function create(): bool
     {
         $validator = new Validator();
-        $validator->validMessage("content", "is_sent", "seen", "discussionId", "senderId", "receiverId", [
+        $validator->validMessage("content", "is_sent", "is_read", "discussionId", "senderId", "receiverId", [
             "content" => $this->content,
             "is_sent" => $this->is_sent,
-            "seen" => $this->seen,
+            "is_read" => $this->is_read,
             "discussionId" => $this->discussion_id,
             "senderId" => $this->sender_id,
             "receiverId" => $this->receiver_id
@@ -184,14 +184,14 @@ class Message {
         $this->is_delivered = FALSE;
 
         $sql = "INSERT INTO " . self::TABLE . " 
-        (content, sent_at, is_sent, is_delivered, seen, discussion_id, sender_id, receiver_id) 
-        VALUES (:content, :sent_at, :is_sent, :is_delivered, :seen, :discussion_id, :sender_id, :receiver_id)";
+        (content, sent_at, is_sent, is_delivered, is_read, discussion_id, sender_id, receiver_id) 
+        VALUES (:content, :sent_at, :is_sent, :is_delivered, :is_read, :discussion_id, :sender_id, :receiver_id)";
         $params = [
             "content" => $this->content,
             "sent_at" => $this->sent_at,
             "is_sent" => $this->is_sent ?? TRUE,
             "is_delivered" => $this->is_delivered,
-            "seen" => $this->seen ?? FALSE,
+            "is_read" => $this->is_read ?? FALSE,
             "discussion_id" => $this->discussion_id,
             "sender_id" => $this->sender_id,
             "receiver_id" => $this->receiver_id
@@ -213,29 +213,29 @@ class Message {
     {
         $validator = new Validator();
         $validator->checkMessage("message id", $this->message_id)
-            ->validMessageUpdate("content", "seen",[
+            ->validMessageUpdate("content", "is_read",[
             "content" => $this->content,
-            "seen" => $this->seen
+            "is_read" => $this->is_read
         ]);
 
         if (!$validator->isValid()) {
             throw new Exception("VALIDATION ERROR : " . implode("; ", $validator->getErrors()));
         }
 
-        if ($this->seen && !$this->is_delivered) {
-            throw new Exception("A message not delivered can't be marked as seen");
+        if ($this->is_read && !$this->is_delivered) {
+            throw new Exception("A message not delivered can't be marked as is_read");
         }
 
         $sql = "UPDATE " . self::TABLE . " SET 
             content = :content,
-            seen = :seen,
+            is_read = :is_read,
             is_delivered = :is_delivered
             WHERE message_id = :id
         ";
         $params = [
             "id" => $this->message_id,
             "content" => $this->content,
-            "seen" => $this->seen,
+            "is_read" => $this->is_read,
             "is_delivered" => $this->is_delivered
         ];
 
@@ -271,27 +271,27 @@ class Message {
     }
 
     /**
-     * Mark a message as seen when it gets to the receiver
+     * Mark a message as read when it gets to the receiver
      * 
      * @throws Exception Fail when the message is not delivered
-     * @return bool The seen state
+     * @return bool The read state
      */
-    public function markAsSeen(): bool
+    public function markAsRead(): bool
     {
         if (!$this->is_delivered) {
-            throw new Exception("A message not delivered can't be marked as seen");
+            throw new Exception("A message not delivered can't be marked as read");
         }
 
         $sql = "UPDATE " . self::TABLE . " SET 
-            seen = :seen
+            is_read = :is_read
             WHERE message_id = :id
         ";
         Database::query($sql, [
             "id" => $this->message_id,
-            "seen" => TRUE
+            "is_read" => TRUE
         ]);
         
-        $this->seen = TRUE;
+        $this->is_read = TRUE;
 
         return true;
     }
@@ -350,14 +350,14 @@ class Message {
     }
 
     /**
-     * Set the message read state to confirm the receiver has seen the message
+     * Set the message read state to confirm the receiver has read the message
      * 
-     * @param bool $seen Check if message has been seen or not
+     * @param bool $is_read Check if message has been read or not
      * @return self The current message
      */
-    public function setReadState(bool $seen): self
+    public function setReadState(bool $is_read): self
     {
-        $this->seen = $seen;
+        $this->is_read = $is_read;
         return $this;
     }
 
@@ -435,9 +435,9 @@ class Message {
     /**
      * Get the message reading state
      * 
-     * @return bool Confirm that the message has been seen
+     * @return bool Confirm that the message has been read
      */
-    public function getReadState(): bool { return $this->seen; }
+    public function getReadState(): bool { return $this->is_read; }
 
     /**
      * Get the message discussion ID

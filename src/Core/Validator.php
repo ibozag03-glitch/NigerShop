@@ -499,7 +499,7 @@ class Validator {
      * 
      * @param string $content Field name for the message content
      * @param string $is_sent Field name for the message sent state
-     * @param string $seen Field name for message seen state
+     * @param string $is_read Field name for message read state
      * @param string $discussionId Field name for the message discussion ID
      * @param string $senderId Field name for the message sender ID
      * @param string $receiverId Field name for the message receiver ID
@@ -509,7 +509,7 @@ class Validator {
      */
     public function validMessage(
         string $content, string $is_sent, 
-        string $seen, string $discussionId, string $senderId, 
+        string $is_read, string $discussionId, string $senderId, 
         string $receiverId, array $data): self
     {
 
@@ -518,8 +518,8 @@ class Validator {
         $this->required($is_sent, $data[$is_sent] ?? "");
         $this->isBoolean($is_sent, $data[$is_sent] ?? "");
         
-        $this->required($seen, $data[$seen] ?? "");
-        $this->isBoolean($seen, $data[$seen] ?? "");
+        $this->required($is_read, $data[$is_read] ?? "");
+        $this->isBoolean($is_read, $data[$is_read] ?? "");
         
         $this->required($discussionId, $data[$discussionId] ?? "");
         $this->isInteger($discussionId, $data[$discussionId] ?? "");
@@ -543,16 +543,16 @@ class Validator {
      * Validate a message update
      * 
      * @param string $content Field name for the message content
-     * @param string $seen Field name for message seen state
+     * @param string $is_read Field name for message read state
      * @param array $data Contains the value to validate before updating
      * @return self
      */
-    public function validMessageUpdate(string $content, string $seen, array $data): self
+    public function validMessageUpdate(string $content, string $is_read, array $data): self
     {
         $this->required($content, $data[$content] ?? "");
         
-        $this->required($seen, $data[$seen] ?? "");
-        $this->isBoolean($seen, $data[$seen] ?? "");
+        $this->required($is_read, $data[$is_read] ?? "");
+        $this->isBoolean($is_read, $data[$is_read] ?? "");
 
         return $this;
     }

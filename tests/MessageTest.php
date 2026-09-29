@@ -524,7 +524,7 @@ final class MessageTest extends TestCase {
     }
 
     /**
-     * test verify that the message is sent and not delivered or seen
+     * test verify that the message is sent and not delivered or read
      */
     public function testMessageIsSent()
     {
@@ -545,7 +545,7 @@ final class MessageTest extends TestCase {
     }
 
     /**
-     * test a created message is sent and delivered but not seen
+     * test a created message is sent and delivered but not read
      */
     public function testMessageIsDelivered()
     {
@@ -567,7 +567,7 @@ final class MessageTest extends TestCase {
     }
 
     /**
-     * test a created message is sent, delivered and seen
+     * test a created message is sent, delivered and read
      */
     public function testMessageIsRead()
     {
@@ -576,7 +576,7 @@ final class MessageTest extends TestCase {
                 throw new Exception("ERROR : database is not connected");
             }
             self::$Message->markAsDelivered();
-            self::$Message->markAsSeen();
+            self::$Message->markAsRead();
             $found = Message::findById(self::$Message->getMessageId());
 
             self::assertTrue($found->getSendState());

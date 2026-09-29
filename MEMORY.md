@@ -55,13 +55,7 @@
 2. ✓ Review Validator class methods and its unit tests — **COMPLETED**
 3. ✓ Review Router class methods and create unit tests — **COMPLETED**
 4. ✓ Conception of `src/Core/Logger.php` to log user/admin/dev actions and create unit tests — **COMPLETED**
-5. Start conception of `src/Models/*.php` files
-    - Designing User model and its unit test — **COMPLETED**
-    - Designing Category model and its unit test — **COMPLETED**
-    - Designing Annonce model and its unit test — **COMPLETED**
-    - Designing Favorite model and its unit test — **COMPLETED**
-    - Designing Discussion model and its unit test — **COMPLETED**
-    - Designing Message model and its unit test
+5. ✓ Start conception of `src/Models/*.php` files — **COMPLETED**
 
 ## Update format
 After each session, update only the useful sections with this format:
@@ -142,6 +136,14 @@ After each session, update only the useful sections with this format:
   - **Git commit:** Model/Discussion - v1.0 and its unit tests
   - **Files involved:** `src/Models/Discussion.php`, `src/Core/Validator.php`, `tests/DiscussionTest.php`
   - **Next step:** Design Message model and its unit tests
+- 2026-09-30 NigerShop : **Message model and unit tests — implementation completed, consistency checks pending**
+  - **Completed:** Implemented message hydration from database rows and lookups by ID, date, discussion, sender and receiver, plus retrieval of all messages
+  - **Completed:** Implemented message creation, update and deletion with centralized validation and prepared database queries
+  - **Completed:** Implemented message lifecycle states: creation sets `is_sent`; `markAsDelivered()` records delivery; `markAsSeen()` records reading only after delivery
+  - **Renaming:** The SQL schema row `seen` is renamed to `is_read` and is corrected in its every call
+  - **Decision made:** Sender, receiver and discussion are not changed by `update()`; updates affect content and read state only and do not trigger implicit delivery
+  - **Git commit:** Models/Message - v1.0 and its unit tests
+  - **Files involved:** `database/nigershop.sql`, `src/Models/Message.php`, `src/Core/Validator.php`, `tests/MessageTest.php`
 
 ## What to remember after each session
 - The completed task.

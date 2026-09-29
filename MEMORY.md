@@ -55,7 +55,7 @@
 2. ✓ Review Validator class methods and its unit tests — **COMPLETED**
 3. ✓ Review Router class methods and create unit tests — **COMPLETED**
 4. ✓ Conception of `src/Core/Logger.php` to log user/admin/dev actions and create unit tests — **COMPLETED**
-5. Start conception of `src/Models/*.php` files
+5. ✓ Start conception of `src/Models/*.php` files — **COMPLETED**
 
 ## Update format
 After each session, update only the useful sections with this format:
@@ -63,6 +63,7 @@ After each session, update only the useful sections with this format:
 - Project: ...
 - Completed task: ...
 - Decision made: ...
+- Git commit: ...
 - Files involved: ...
 - Next step: ...
 
@@ -93,6 +94,56 @@ After each session, update only the useful sections with this format:
   - **Completed:** Added comprehensive PHPDoc comments to all test methods
   - **Git commit:** Conception of Logger and creation of its unit tests
   - **Next step:** Conception of `src/Models` files
+- 2026-08-04 NigerShop : **Designing User.php model**
+  - **Completed:** Handling data comming from the users tables with apropriete properties
+  - **Completed:** CRUD operations designed
+  - **Completed:** Validation of user informations before adding to the database
+  - **Git commit:** Models/Use - v1.0
+- 2026-08-10 NigerShop : **Fixed User.php model – corrected static property usage and typo**
+  - **Completed:** Changed all property accesses from self::$property to $this->property
+  - **Completed:** Verified that CRUD operations, validation, and password hashing work correctly
+  - **Git commit:** [fix] : variable instanciation call
+  - **Next step:** Write unit tests for User model (tests/UserTest.php)
+- 2026-08-21 NigerShop : **Fixed UserTest.php - corrected tests design**
+  - **Completed:** Refactor all test fonctions for better verification
+  - **Git commit:** [update] : refactor `UserTest.php` tests
+  - **Next step:** Design Category model and its unit tests
+- 2026-08-23 NigerShop : **Category model and unit tests completed**
+  - **Completed:** Handling data comming from the categories table with apropriete properties
+  - **Completed:** CRUD operations designed
+  - **Completed:** Validation of categories datas before adding to the database
+  - **Completed:** All methods tests pass correctly
+  - **First git commit:** Models/Category - v1.0
+  - **Second git commit:** Category model unit tests
+  - **Next step:** Design Annonce model and its unit tests
+- 2026-08-28 NigerShop : **Annonce model and unit tests completed**
+  - **Completed:** Covered Annonce searches by ID, category, owner and slug
+  - **Completed:** Added valid and invalid tests for create, update and delete operations
+  - **Completed:** Verified returned Annonce objects and database persistence after update and delete
+  - **First git commit:** Models/Annonce - v1.0
+  - **Second git commit:** Annonce model unit tests
+  - **Next step:** Design Favorite model and its unit tests
+- 2026-08-30 NigerShop : **Favorite model and unit tests completed**
+  - **Completed:** Implemented `src/Models/Favorites.php` with CRUD-like operations for the composite favorite key
+  - **Completed:** Added `tests/FavoritesTest.php` covering add, duplicate rejection, lookup by user/annonce, full list, and remove cases
+  - **First git commit:** Models/Favorites - v1.0
+  - **Second git commit:** Favorites modem unit tests
+  - **Files involved:** `src/Models/Favorites.php`, `tests/FavoritesTest.php`
+- 2026-09-12 NigerShop : **Discussion model and unit tests completed**
+  - **Completed:** Implemented discussion lookup, creation, update and deletion operations
+  - **Completed:** Added centralized discussion validation for required IDs, positive IDs, allowed statuses and distinct customer/seller IDs
+  - **Completed:** Added tests for lookup, empty results, invalid creation, update and deletion scenarios
+  - **Git commit:** Model/Discussion - v1.0 and its unit tests
+  - **Files involved:** `src/Models/Discussion.php`, `src/Core/Validator.php`, `tests/DiscussionTest.php`
+  - **Next step:** Design Message model and its unit tests
+- 2026-09-30 NigerShop : **Message model and unit tests — implementation completed, consistency checks pending**
+  - **Completed:** Implemented message hydration from database rows and lookups by ID, date, discussion, sender and receiver, plus retrieval of all messages
+  - **Completed:** Implemented message creation, update and deletion with centralized validation and prepared database queries
+  - **Completed:** Implemented message lifecycle states: creation sets `is_sent`; `markAsDelivered()` records delivery; `markAsSeen()` records reading only after delivery
+  - **Renaming:** The SQL schema row `seen` is renamed to `is_read` and is corrected in its every call
+  - **Decision made:** Sender, receiver and discussion are not changed by `update()`; updates affect content and read state only and do not trigger implicit delivery
+  - **Git commit:** Models/Message - v1.0 and its unit tests
+  - **Files involved:** `database/nigershop.sql`, `src/Models/Message.php`, `src/Core/Validator.php`, `tests/MessageTest.php`
 
 ## What to remember after each session
 - The completed task.

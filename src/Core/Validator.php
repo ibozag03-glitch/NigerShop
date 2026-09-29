@@ -31,7 +31,7 @@ class Validator {
     public function ensureDatabase(): void
     {
         if (!Database::isConnected()) {
-            throw new RuntimeException("Database is not set. Call setDatabase() first.");
+            throw new RuntimeException("Database is not set. Call setDatabase() first");
         }
     }
 
@@ -44,8 +44,8 @@ class Validator {
      */
     public function required(string $field, mixed $value): self
     {
-        if (trim( (string) $value ) === '') {
-            $this->errors[$field]  = "$field est vide. Veuillez le remplir.";
+        if ($value === null || (is_string($value) && trim((string)$value) === '')) {
+            $this->errors[$field]  = "$field est vide. Veuillez le remplir";
         }
         return $this;
     }
@@ -63,13 +63,13 @@ class Validator {
         $nameFormat = "/^[a-zA-Z][a-zA-Z_-]{2,49}$/";
 
         if ($namelength < MIN_USERNAME_LEN) {
-            $this->errors[$field] = "$field est trop court.";
+            $this->errors[$field] = "$field est trop court";
 
         } elseif ($namelength > MAX_USERNAME_LEN) {
-            $this->errors[$field] = "$field est trop long.";
+            $this->errors[$field] = "$field est trop long";
 
         } elseif (!preg_match($nameFormat, $value)) {
-            $this->errors[$field] = "$field est mal formaté.";
+            $this->errors[$field] = "$field est mal formaté";
         }
 
         return $this;
@@ -124,7 +124,7 @@ class Validator {
         $formatFr = "/^(\+33|0)[1-9](\d{8}|\d{2}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?)$/";
         
         if (!(preg_match($formatNe, (string) $value) || preg_match($formatFr, (string) $value))) {
-            $this->errors[$field] = "$field n'est pas un numéro valide.";
+            $this->errors[$field] = "$field n'est pas un numéro valide";
         }
         return $this;
     }
@@ -141,7 +141,7 @@ class Validator {
     {
         $uniqueformat = "/^[a-zA-Z0-9_]+$/";
         if (!preg_match($uniqueformat, (string) $table) || !preg_match($uniqueformat, (string) $column)) {
-            throw new InvalidArgumentException("Invalid table or Column name.");
+            throw new InvalidArgumentException("Invalid table or Column name");
         }
 
         $this->ensureDatabase();
@@ -150,7 +150,7 @@ class Validator {
         $result = Database::fetch($verifSQL, ["value" => $value]);
 
         if ($result['count'] > 0) {
-            $this->errors[$column] = "Ce $column existe déjà.";
+            $this->errors[$column] = "Ce $column existe déjà";
         }
         return $this;
     }
@@ -165,7 +165,7 @@ class Validator {
     public function validUrl(string $field, mixed $value): self
     {
         if (!filter_var($value, FILTER_VALIDATE_URL)) {
-            $this->errors[$field] = "$field n'est pas valide."; 
+            $this->errors[$field] = "$field n'est pas valide"; 
         }
         return $this;
     }
@@ -181,7 +181,23 @@ class Validator {
     public function match(string $field, mixed $value, mixed $match): self
     {
         if ($value !== $match) {
-            $this->errors[$field] = "$field ne correspond pas.";
+            $this->errors[$field] = "$field ne correspond pas";
+        }
+        return $this;
+    }
+    
+    /**
+     * Validate that two values don't match
+     * 
+     * @param string $field Field name used for error messages
+     * @param mixed $value1 First value
+     * @param mixed $value2 Second value
+     * @return self
+     */
+    public function dontMatch(string $field, mixed $value1, mixed $value2): self
+    {
+        if ($value1 === $value2) {
+            $this->errors[$field] = "les $field sont identique";
         }
         return $this;
     }
@@ -197,7 +213,7 @@ class Validator {
     public function minLength(string $field, mixed $value, int $length): self
     {
         if (strlen( (string) $value) < $length) {
-            $this->errors[$field] = "$field est trop court. Il doit avoir au moins $length caractères.";    
+            $this->errors[$field] = "$field est trop court. Il doit avoir au moins $length caractères";    
         }
         return $this;
     }
@@ -213,7 +229,7 @@ class Validator {
     public function maxLength(string $field, mixed $value, int $length): self
     {
         if (strlen( (string) $value) > $length) {
-            $this->errors[$field] = "$field est trop long. Il doit avoir au plus $length caractères.";
+            $this->errors[$field] = "$field est trop long. Il doit avoir au plus $length caractères";
         }
         return $this;
     }
@@ -228,7 +244,7 @@ class Validator {
     public function isNumber(string $field, mixed $value): self
     {
         if (!is_numeric($value)) {
-            $this->errors[$field] = "$field n'est pas une valeur numerique.";   
+            $this->errors[$field] = "$field n'est pas une valeur numerique";   
         }
         return $this;
     }
@@ -243,7 +259,27 @@ class Validator {
     public function isInteger(string $field, mixed $value): self
     {
         if (!filter_var($value, FILTER_VALIDATE_INT)) {
-            $this->errors[$field] = "$field n'est pas une valeur entière.";    
+            $this->errors[$field] = "$field n'est pas une valeur entière";    
+        }
+        return $this;
+    }
+    
+    /**
+     * Validate that the value is positive
+     * 
+     * @param $field Field name used for error message
+     * @param mixed $value Value to validate
+     * @return self
+     */
+    public function isPositive(string $field, mixed $value): self
+    {
+        if (!is_numeric($value)) {
+            $this->errors[$field] = "$field n'est pas un nombre";
+            return $this;
+        }
+
+        if ($value <= 0) {
+            $this->errors[$field] = "$field doit être une valeur positive";
         }
         return $this;
     }
@@ -257,9 +293,8 @@ class Validator {
      */
     public function isBoolean(string $field, mixed $value): self
     {
-        $valid = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        if ($valid === null) {
-            $this->errors[$field] = "$field n'est pas une valeur booléen.";
+        if (!is_bool($value)) {
+            $this->errors[$field] = "$field n'est pas une valeur booléen";
         }
         return $this;
     }
@@ -293,13 +328,39 @@ class Validator {
     }
 
     /**
+     * Validate category input fields.
+     * 
+     * @param string $name Field name for category name
+     * @param string $slug Field name for category slug
+     * @param string $description Field name for category description
+     * @param array $data Input data array
+     */
+    public function validCategory(string $name, string $slug, string $description, array $data): self
+    {
+        $this->required($name, $data[$name] ?? '');
+        $this->minLength($name, $data[$name] ?? '', 5);
+        $this->maxLength($name, $data[$name] ?? '', 25);
+        $this->unique("categories", $name, $data[$name] ?? '');
+
+        $this->required($slug, $data[$slug] ?? '');
+        $this->minLength($name, $data[$name] ?? '', 5);
+        $this->maxLength($slug, $data[$slug] ?? '', 255);
+        $this->unique("categories", $slug, $data[$slug] ?? '');
+
+        $this->required($description, $data[$description] ?? '');
+        $this->maxLength($description, $data[$description] ?? '', 500);
+
+        return $this;
+    }
+
+    /**
      * Validate that a category ID exists in the categories table.
      *
      * @param string $field Field name used for error messages
      * @param mixed $value Category ID
      * @return self
      */
-    public function validCategory(string $field, mixed $value): self
+    public function checkCategory(string $field, int $value): self
     {
         if (filter_var($value, FILTER_VALIDATE_INT) === false) {
             $this->errors[$field] = "La $field est invalide";
@@ -339,6 +400,185 @@ class Validator {
 
         $this->required($prix, $data[$prix] ?? '');
         $this->isNumber($prix, $data[$prix] ?? '');
+        $this->isPositive($prix, $data[$prix] ?? '');
+
+        return $this;
+    }
+
+    /**
+     * Validate that a specific annonce ID exists in the annonce table.
+     *
+     * @param string $field Field name used for error messages
+     * @param mixed $value Category ID
+     * @return self
+     */
+    public function checkAnnonce(string $field, mixed $value): self
+    {
+        if (filter_var($value, FILTER_VALIDATE_INT) === false) {
+            $this->errors[$field] = "La $field est invalide";
+            return $this;
+        }
+
+        $this->ensureDatabase();
+
+        $searchSQL = "SELECT COUNT(*) as count FROM annonces WHERE annonce_id = :id";
+        $result = Database::fetchColumn($searchSQL, ["id" => $value]);
+
+        if ($result === false || (int) $result === 0) {
+            $this->errors[$field] = "cette $field n'existe pas.";
+        }
+
+        return $this;
+    }
+
+    /**
+     * Validate a discussion information
+     * 
+     * @param string $annonceId Field name for annonce identifier
+     * @param string $customerId Field name for customer identifier
+     * @param string $sellerId Field name for seller identifier
+     * @param string $status Field name for discussion status
+     * @param array $data Contains the actual identifier
+     * @return self
+     */
+    public function validDiscussion(
+        string $annonceId, string $customerId, string $sellerId, string $status, array $data): self
+    {
+        $this->required($annonceId, $data[$annonceId] ?? "");
+        $this->isInteger($annonceId, $data[$annonceId] ?? "");
+        $this->isPositive($annonceId, $data[$annonceId] ?? "");
+        
+        $this->required($customerId, $data[$customerId] ?? "");
+        $this->isInteger($customerId, $data[$customerId] ?? "");
+        $this->isPositive($customerId, $data[$customerId] ?? "");
+        
+        $this->required($sellerId, $data[$sellerId] ?? "");
+        $this->isInteger($sellerId, $data[$sellerId] ?? "");
+        $this->isPositive($sellerId, $data[$sellerId] ?? "");
+        
+        $this->required($status, $data[$status] ?? "");
+
+        $this->dontMatch("users id", $data[$customerId] ?? null, $data[$sellerId] ?? null);
+
+        $allowedStatus = ["active", "closed", "blocked"];
+        if (!in_array($data[$status] ?? null, $allowedStatus, true)) {
+            $this->errors[$status] = "Le status n'est pas un status invalid";
+        }
+
+        return $this;
+    }
+
+    /**
+     * Validate that a specific discussion id exist in the discussion table
+     * 
+     * @param string $field Field name used for error messages
+     * @param mixed $value Discussion ID
+     * @return self
+     */
+    public function checkDiscussion(string $field, mixed $value): self
+    {
+        if (filter_var($value, FILTER_VALIDATE_INT) === false) {
+            $this->errors[$field] = "La $field est invalide";
+            return $this;
+        }
+
+        $this->ensureDatabase();
+
+        $searchSQL = "SELECT COUNT(*) as count FROM discussions WHERE discussion_id = :id";
+        $result = Database::fetchColumn($searchSQL, ["id" => $value]);
+
+        if ($result === false || (int) $result === 0) {
+            $this->errors[$field] = "cette $field n'existe pas.";
+        }
+
+        return $this;
+    }
+
+    /**
+     * Validate a message information
+     * 
+     * @param string $content Field name for the message content
+     * @param string $is_sent Field name for the message sent state
+     * @param string $is_read Field name for message read state
+     * @param string $discussionId Field name for the message discussion ID
+     * @param string $senderId Field name for the message sender ID
+     * @param string $receiverId Field name for the message receiver ID
+     * @param array $data Contains all fields values
+     * 
+     * @return self
+     */
+    public function validMessage(
+        string $content, string $is_sent, 
+        string $is_read, string $discussionId, string $senderId, 
+        string $receiverId, array $data): self
+    {
+
+        $this->required($content, $data[$content] ?? "");
+
+        $this->required($is_sent, $data[$is_sent] ?? "");
+        $this->isBoolean($is_sent, $data[$is_sent] ?? "");
+        
+        $this->required($is_read, $data[$is_read] ?? "");
+        $this->isBoolean($is_read, $data[$is_read] ?? "");
+        
+        $this->required($discussionId, $data[$discussionId] ?? "");
+        $this->isInteger($discussionId, $data[$discussionId] ?? "");
+        $this->isPositive($discussionId, $data[$discussionId] ?? "");
+
+        
+        $this->required($senderId, $data[$senderId] ?? "");
+        $this->isInteger($senderId, $data[$senderId] ?? "");
+        $this->isPositive($senderId, $data[$senderId] ?? "");
+
+        
+        $this->required($receiverId, $data[$receiverId] ?? "");
+        $this->isInteger($receiverId, $data[$receiverId] ?? "");
+        $this->isPositive($receiverId, $data[$receiverId] ?? "");
+
+
+        return $this;
+    }
+
+    /**
+     * Validate a message update
+     * 
+     * @param string $content Field name for the message content
+     * @param string $is_read Field name for message read state
+     * @param array $data Contains the value to validate before updating
+     * @return self
+     */
+    public function validMessageUpdate(string $content, string $is_read, array $data): self
+    {
+        $this->required($content, $data[$content] ?? "");
+        
+        $this->required($is_read, $data[$is_read] ?? "");
+        $this->isBoolean($is_read, $data[$is_read] ?? "");
+
+        return $this;
+    }
+
+    /**
+     * Validate that a specific message id exist in the message table
+     * 
+     * @param string $field Field name used for error messages
+     * @param mixed $value Message ID
+     * @return self
+     */
+    public function checkMessage(string $field, mixed $value): self
+    {
+        if (filter_var($value, FILTER_VALIDATE_INT) === false) {
+            $this->errors[$field] = "La $field est invalide";
+            return $this;
+        }
+
+        $this->ensureDatabase();
+
+        $searchSQL = "SELECT COUNT(*) as count FROM messages WHERE message_id = :id";
+        $result = Database::fetchColumn($searchSQL, ["id" => $value]);
+
+        if ($result === false || (int) $result === 0) {
+            $this->errors[$field] = "cette $field n'existe pas.";
+        }
 
         return $this;
     }

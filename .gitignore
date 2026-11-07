@@ -23,6 +23,7 @@ Tumbs.db
 # Dossiers IDE
 .vscode/
 .idea/
+/vendor/
 *.swp
 *.swo
 *.~
